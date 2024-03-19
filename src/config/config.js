@@ -57,15 +57,15 @@ const VISIBLE_MENU_ITEMS = {
     }
 };
 
-const VISIBLE_ACCOUNT_MENU_ITEMS = {
-    loggedIn: [
-        {name: "My account", path: "/account"},
-        {name: "Log out", path: "/logout"},
-    ],
-    loggedOut: [
-        {name: "Log in", path: "/login"},
-    ]
-};
+// const VISIBLE_ACCOUNT_MENU_ITEMS = {
+//     loggedIn: [
+//         {name: "My account", path: "/account"},
+//         {name: "Log out", path: "/logout"},
+//     ],
+//     loggedOut: [
+//         {name: "Log in", path: "/login"},
+//     ]
+// };
 
 const DEFAULT_USER_ACCOUNT_SLICE = {
     isLogged: true,
@@ -89,8 +89,13 @@ const API_CONFIG ={
         STUDENT: "/student",
         LECTURER: "/lecturer",
         EDITOR: "/editor",
-        ACCOUNT: "/account"
+        ACCOUNT: "/account",
+        OPTIONS: "/option"
     }
 }
+const OPTION_CODES = {
+    DEPARTMENT : "DEPT_ALL",
+    LECTURER: "LECT_ALL",
+}
 
-export {DEFAULT_USER_ACCOUNT, DEFAULT_USER_ACCOUNT_SLICE,VISIBLE_MENU_ITEMS,ROLE_CONSTANTS,API_CONFIG,WATERMARKS};
+export {DEFAULT_USER_ACCOUNT, DEFAULT_USER_ACCOUNT_SLICE,VISIBLE_MENU_ITEMS,ROLE_CONSTANTS,API_CONFIG,WATERMARKS, OPTION_CODES};

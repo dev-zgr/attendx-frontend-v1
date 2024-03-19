@@ -1,7 +1,7 @@
 import {MainWrapperComponent} from "../../../components/MainWrapperComponent";
 import {QueryManager} from "../../../components/QueryManager";
 import {GenericFormManager} from "../../../components/GenericFormManager";
-import {TextInput} from "../../../meta-components/form/inputs/TextInput";
+import {TextInputMetaComponent} from "../../../meta-components/form/inputs/TextInputMetaComponent";
 import {prepareURL} from "../../../utilityFunctions/apiHandling";
 import {API_CONFIG} from "../../../config/config";
 import {redirect} from "react-router-dom";
@@ -23,7 +23,7 @@ export const DepartmentAddPage = () => {
                 <SectionHeaderMetaComponent header={"Department"}/>
                 <SectionDescriptionMetaComponent description={"This information will be displayed on the department description"}/>
                 <InputSectionMetaComponent>
-                    <TextInput name={"departmentName"} label={"Department Name"} placeholder={"eg. Department of Engineering"} size={3} validator={(text)=> textValidator(text,60)} />
+                    <TextInputMetaComponent name={"departmentName"} label={"Department Name"} placeholder={"eg. Department of Engineering"} size={3} validator={(text)=> textValidator(text,60)} />
                     <BlobInputMetaComponent name={"description"} label={"Description"} placeholder={"Write a brief description of the department"} validator={(text)=> textValidator(text,255)}/>
                 </InputSectionMetaComponent>
                 <SectionDividerMetaComponent/>
@@ -34,7 +34,7 @@ export const DepartmentAddPage = () => {
 }
 
 
-export async function action({request, params}) {
+export async function action({request}) {
     const data = await request.formData();
 
     const body = {

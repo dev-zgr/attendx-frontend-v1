@@ -5,7 +5,7 @@ import {GenericFormManager} from "../../../components/GenericFormManager";
 import {SectionHeaderMetaComponent} from "../../../meta-components/form/sections/SectionHeaderMetaComponent";
 import {SectionDescriptionMetaComponent} from "../../../meta-components/form/sections/SectionDescriptionMetaComponent";
 import {InputSectionMetaComponent} from "../../../meta-components/form/sections/InputSectionMetaComponent";
-import {TextInput} from "../../../meta-components/form/inputs/TextInput";
+import {TextInputMetaComponent} from "../../../meta-components/form/inputs/TextInputMetaComponent";
 import {textValidator} from "../../../utilityFunctions/validator";
 import {BlobInputMetaComponent} from "../../../meta-components/form/inputs/BlobInputMetaComponent";
 import {SectionDividerMetaComponent} from "../../../meta-components/form/sections/SectionDividerMetaComponent";
@@ -23,7 +23,7 @@ export const DepartmentUpdatePage = () => {
                 <SectionDescriptionMetaComponent
                     description={"You're currently editing the department. Changes will be permanent after you click save button"}/>
                 <InputSectionMetaComponent>
-                    <TextInput
+                    <TextInputMetaComponent
                         value={fetchedDepartment.departmentName}
                         name={"departmentName"}
                         label={"Department Name"}

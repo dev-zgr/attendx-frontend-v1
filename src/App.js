@@ -13,6 +13,8 @@ import {action as addEditorAction, EditorAddPage} from "./pages/Pages/editor/Edi
 import {CoursesPage, loader as courseLoader} from "./pages/Pages/course/CoursesPage";
 import {EditorDetailPage, loader as editorItemLoader} from "./pages/Pages/editor/EditorDetailPage";
 import {StudentDetailPage, loader as studentItemLoader} from "./pages/Pages/student/StudentDetailPage";
+import {LecturerAddPage, action as lecturerAction} from "./pages/Pages/lecturer/LecturerAddPage";
+import {CourseAddPage} from "./pages/Pages/course/CourseAddPage";
 
 
 //Add error element for department
@@ -43,8 +45,8 @@ const router = createBrowserRouter([
         path: "/lecturer",
         element: <RootLayout/>,
         children: [
-            {index: true, element: <LecturersPage/>, loader: lecturerLoader}
-            // {path: "new", element: <DepartmentAddPage/>},
+            {index: true, element: <LecturersPage/>, loader: lecturerLoader},
+             {path: "new", element: <LecturerAddPage/>, action: lecturerAction}
             // {path: ":email", element: <DepartmentDetailPage/>},
             // {path: ":email/edit", element: <DepartmentUpdatePage/>},
 
@@ -66,7 +68,7 @@ const router = createBrowserRouter([
         element: <RootLayout/>,
         children: [
             {index: true, element: <CoursesPage/>, loader: courseLoader},
-            // {path: "new", element: <StudentAddPage/>, action: addStudentAction}
+            {path: "new", element: <CourseAddPage/>, action: addStudentAction}
             // {path: ":email", element: <DepartmentDetailPage/>},
             // {path: ":email/edit", element: <DepartmentUpdatePage/>},
 

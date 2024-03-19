@@ -8,7 +8,7 @@ import {API_CONFIG} from "../../../config/config";
 import {QueryManager} from "../../../components/QueryManager";
 import {QueryManagerButton} from "../../../meta-components/buttons/QueryManagerButton";
 import {MainWrapperComponent} from "../../../components/MainWrapperComponent";
-import {TextInput} from "../../../meta-components/form/inputs/TextInput";
+import {TextInputMetaComponent} from "../../../meta-components/form/inputs/TextInputMetaComponent";
 import {textValidator} from "../../../utilityFunctions/validator";
 import {BlobInputMetaComponent} from "../../../meta-components/form/inputs/BlobInputMetaComponent";
 import {InputSectionMetaComponent} from "../../../meta-components/form/sections/InputSectionMetaComponent";
@@ -28,13 +28,13 @@ export const DepartmentDetailPage = () => {
             <MainCardWrapper>
                 <SectionHeaderMetaComponent header={`Department: ${fetchedDepartment.departmentName}`}/>
                 <InputSectionMetaComponent>
-                    <TextInput name={"departmentName"}
-                               label={"Department Name"}
-                               placeholder={"eg. Department of Engineering"}
-                               size={3}
-                               validator={(text) => textValidator(text, 60)}
-                               value={fetchedDepartment.departmentName}
-                               disabled={true}
+                    <TextInputMetaComponent name={"departmentName"}
+                                            label={"Department Name"}
+                                            placeholder={"eg. Department of Engineering"}
+                                            size={3}
+                                            validator={(text) => textValidator(text, 60)}
+                                            value={fetchedDepartment.departmentName}
+                                            disabled={true}
                     />
                     <BlobInputMetaComponent name={"description"}
                                             label={"Description"}

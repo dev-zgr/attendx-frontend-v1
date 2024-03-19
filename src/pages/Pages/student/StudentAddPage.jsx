@@ -6,36 +6,39 @@ import {GenericFormManager} from "../../../components/GenericFormManager";
 import {SectionHeaderMetaComponent} from "../../../meta-components/form/sections/SectionHeaderMetaComponent";
 import {SectionDescriptionMetaComponent} from "../../../meta-components/form/sections/SectionDescriptionMetaComponent";
 import {InputSectionMetaComponent} from "../../../meta-components/form/sections/InputSectionMetaComponent";
-import {TextInput} from "../../../meta-components/form/inputs/TextInput";
+import {TextInputMetaComponent} from "../../../meta-components/form/inputs/TextInputMetaComponent";
 import {SectionDividerMetaComponent} from "../../../meta-components/form/sections/SectionDividerMetaComponent";
 import {MainWrapperComponent} from "../../../components/MainWrapperComponent";
 import {numberValidator, textValidator} from "../../../utilityFunctions/validator";
+import {QueryManagerButton} from "../../../meta-components/buttons/QueryManagerButton";
 
 export const StudentAddPage = () => {
     return (
         <>
             <MainWrapperComponent>
-                <QueryManager/>
+                <QueryManager>
+                    <QueryManagerButton label={"Back"} to={".."}></QueryManagerButton>
+                </QueryManager>
                 <GenericFormManager>
                     <SectionHeaderMetaComponent header={"Student"}/>
                     <SectionDescriptionMetaComponent description={"This information will be used for storing student information"}/>
                     <InputSectionMetaComponent>
-                        <TextInput name={"firstName"} label={"First Name"} placeholder={"eg. Özgür"} size={3} validator={(text) => textValidator(text,60)}/>
-                        <TextInput name={"lastName"} label={"Last Name"} placeholder={"eg. Kamalı"} size={3} validator={(text) => textValidator(text,60)}/>
-                        <TextInput name={"email"} label={"Email address"} placeholder={"eg. ozgur@kamali.com"} size={3} validator={(text) => textValidator(text,16)}/>
-                        <TextInput name={"phoneNumber"} label={"Phone Number"} placeholder={"eg. 3604902204"} size={3} validator={(number) => numberValidator(number,10)}/>
-                        <TextInput name={"password"} label={"Password"} placeholder={""}  size={3} type={"password"} validator={(text) => {return true}}/>
+                        <TextInputMetaComponent name={"firstName"} label={"First Name"} placeholder={"eg. Özgür"} size={3} validator={(text) => textValidator(text,60)}/>
+                        <TextInputMetaComponent name={"lastName"} label={"Last Name"} placeholder={"eg. Kamalı"} size={3} validator={(text) => textValidator(text,60)}/>
+                        <TextInputMetaComponent name={"email"} label={"Email address"} placeholder={"eg. ozgur@kamali.com"} size={3} validator={(text) => textValidator(text,16)}/>
+                        <TextInputMetaComponent name={"phoneNumber"} label={"Phone Number"} placeholder={"eg. 3604902204"} size={3} validator={(number) => numberValidator(number,10)}/>
+                        <TextInputMetaComponent name={"password"} label={"Password"}  size={3} type={"password"} validator={(text) => {return text}}/>
                     </InputSectionMetaComponent>
                     <SectionDividerMetaComponent/>
                     <SectionHeaderMetaComponent header={"Address"}/>
                     <SectionDescriptionMetaComponent description={"This information will be used for storing students address"}/>
                     <InputSectionMetaComponent>
-                        <TextInput name={"streetFirstLine"} label={"Street First Line"} placeholder={"eg. 416 Lake Crescent rd."} validator={(text) => textValidator(text,255)}/>
-                        <TextInput name={"streetSecondLine"} label={"Street Second Line"} placeholder={"eg. W-10"} validator={(text) => textValidator(text,255)}/>
-                        <TextInput name={"city"} label={"City"} placeholder={"eg. Port Angeles"} size={3} validator={(text) => textValidator(text,100)} />
-                        <TextInput name={"state"} label={"State"} placeholder={"eg. WA"} size={3} validator={(text) => textValidator(text,100)} />
-                        <TextInput name={"country"} label={"Country"} placeholder={"eg. USA"} size={3} validator={(text) => textValidator(text,100)}/>
-                        <TextInput name={"zipCode"} label={"Zip Code"} placeholder={"eg. 98363"} size={3} validator={(number) => numberValidator(number,5)}/>
+                        <TextInputMetaComponent name={"streetFirstLine"} label={"Street First Line"} size={4} placeholder={"eg. 416 Lake Crescent rd."} validator={(text) => textValidator(text,255)}/>
+                        <TextInputMetaComponent name={"streetSecondLine"} label={"Street Second Line"}  size={4} placeholder={"eg. W-10"} validator={(text) => textValidator(text,255)}/>
+                        <TextInputMetaComponent name={"city"} label={"City"} placeholder={"eg. Port Angeles"} size={3} validator={(text) => textValidator(text,100)} />
+                        <TextInputMetaComponent name={"state"} label={"State"} placeholder={"eg. WA"} size={3} validator={(text) => textValidator(text,100)} />
+                        <TextInputMetaComponent name={"country"} label={"Country"} placeholder={"eg. USA"} size={3} validator={(text) => textValidator(text,100)}/>
+                        <TextInputMetaComponent name={"zipCode"} label={"Zip Code"} placeholder={"eg. 98363"} size={3} validator={(number) => numberValidator(number,5)}/>
                     </InputSectionMetaComponent>
                     <SectionDividerMetaComponent/>
                 </GenericFormManager>
@@ -45,7 +48,7 @@ export const StudentAddPage = () => {
 }
 
 
-export async function action({request, params}) {
+export async function action({request}) {
     const data = await request.formData();
 
     const body = {
