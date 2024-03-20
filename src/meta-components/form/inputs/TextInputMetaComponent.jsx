@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {gridSizeInferior} from "../../../utilityFunctions/tailwind";
+import {gridColInferior} from "../../../utilityFunctions/tailwind";
 
 export const TextInputMetaComponent = ({name, label, placeholder, size, validator, ...rest}) => {
     const [value, setValue] = useState("");
@@ -10,7 +10,7 @@ export const TextInputMetaComponent = ({name, label, placeholder, size, validato
 
         }
     }
-    let className = gridSizeInferior(size);
+    let className = gridColInferior(size);
     return (
         <div className={className}>
             <label htmlFor="username" className=" text-sm font-medium leading-6 text-slate-700">{label}</label>

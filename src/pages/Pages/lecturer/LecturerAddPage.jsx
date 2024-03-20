@@ -45,6 +45,7 @@ export const LecturerAddPage = () => {
                     </InputSectionMetaComponent>
                     <SectionDividerMetaComponent/>
                 </GenericFormManager>
+
             </MainWrapperComponent>
         </>
     )

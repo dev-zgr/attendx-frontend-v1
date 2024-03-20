@@ -1,4 +1,4 @@
-import {gridSizeInferior} from "../../../utilityFunctions/tailwind";
+import {gridColInferior} from "../../../utilityFunctions/tailwind";
 import {useEffect, useState} from "react";
 import {addParametersToURL, apiLoader, prepareURL} from "../../../utilityFunctions/apiHandling";
 import {API_CONFIG} from "../../../config/config";
@@ -19,7 +19,7 @@ export const SelectBoxMetaComponent = ({optionCode ,name, label, placeholder, si
         });
     }, [optionCode]);
 
-    let className = gridSizeInferior(size);
+    let className = gridColInferior(size);
     return (
         <div className={className}>
             <label htmlFor="username" className=" text-sm font-medium leading-6 text-slate-700">{label}</label>

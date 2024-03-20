@@ -1,4 +1,4 @@
-export const gridSizeInferior = (size) => {
+export const gridColInferior = (size) => {
     let className = `sm:col-span-3`;
     switch (size) {
         case 4:
