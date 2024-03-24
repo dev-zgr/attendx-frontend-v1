@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 
 export const SubListListItemMetaComponent = ({to, children, ...rest}) => {
     return (
-        <li {...rest} className={"group/item p-1.5 flex flex-row justify-between bg-slate-100 hover:bg-slate-200 "}>
+        <li {...rest} className={"group/item p-1.5  pl-2 flex flex-row justify-between bg-slate-100 hover:bg-slate-200  text-slate-700 font-medium"}>
             {children}
             <Link to={to}>
                 <div className="flex invisible mr-1 hover:bg-slate-200 rounded-3xl pt-0.5  group-hover/item:visible items-center">

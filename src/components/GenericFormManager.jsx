@@ -1,13 +1,13 @@
 import {Form, useNavigate} from "react-router-dom";
 
-export const GenericFormManager = ({method, event, children}) => {
+export const GenericFormManager = ({method, children}) => {
     const navigate = useNavigate();
 
     function cancelHandler() {
         navigate('..');
     }
 
-    return (<Form method="post"
+    return (<Form method={method}
                   className={"col-start-3 col-end-9 border border-slate-200 rounded-3xl overflow-hidden shadow-xl p-10"}>
             {children}
             <div className="mt-6 flex items-center justify-end gap-x-6">

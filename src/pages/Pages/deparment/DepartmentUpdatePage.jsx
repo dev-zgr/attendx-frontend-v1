@@ -18,18 +18,20 @@ export const DepartmentUpdatePage = () => {
             <QueryManager>
                 <QueryManagerButton label={"Back"} to={".."}></QueryManagerButton>
             </QueryManager>
-            <GenericFormManager>
+            <GenericFormManager method={"PUT"}>
                 <SectionHeaderMetaComponent header={`Editing: ${fetchedDepartment.departmentName}`}/>
                 <SectionDescriptionMetaComponent
                     description={"You're currently editing the department. Changes will be permanent after you click save button"}/>
                 <InputSectionMetaComponent>
                     <TextInputMetaComponent
-                        value={fetchedDepartment.departmentName}
                         name={"departmentName"}
                         label={"Department Name"}
                         placeholder={"eg. Department of Engineering"}
                         size={3}
-                        validator={(text) => textValidator(text, 60)}/>
+                        value={fetchedDepartment.departmentName}
+                        validator={(text) => textValidator(text, 60)}
+                        disabled={true}
+                    />
                     <BlobInputMetaComponent
                         value={fetchedDepartment.description}
                         name={"description"}

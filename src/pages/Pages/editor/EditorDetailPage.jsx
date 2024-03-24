@@ -1,6 +1,12 @@
-import {addParametersToURL, addPathVariablesToURL, apiLoader, prepareURL} from "../../../utilityFunctions/apiHandling";
+import {
+    addParametersToURL,
+    addPathVariablesToURL,
+    apiLoader,
+    deleteHandler,
+    prepareURL
+} from "../../../utilityFunctions/apiHandling";
 import {API_CONFIG} from "../../../config/config";
-import {useLoaderData} from "react-router-dom";
+import {redirect, useLoaderData} from "react-router-dom";
 import {MainWrapperComponent} from "../../../components/MainWrapperComponent";
 import {QueryManagerButton} from "../../../meta-components/buttons/QueryManagerButton";
 import {QueryManager} from "../../../components/QueryManager";
@@ -10,13 +16,40 @@ import {TextInputMetaComponent} from "../../../meta-components/form/inputs/TextI
 import {SectionDividerMetaComponent} from "../../../meta-components/form/sections/SectionDividerMetaComponent";
 import {MainCardWrapper} from "../../../components/MainCardWrapper";
 import {SectionDescriptionMetaComponent} from "../../../meta-components/form/sections/SectionDescriptionMetaComponent";
+import {
+    QueryManagerDeleteButtonMetaComponent
+} from "../../../meta-components/buttons/QueryManagerDeleteButtonMetaComponent";
+import {useState} from "react";
+import {DeleteModalComponent} from "../../../components/DeleteModalComponent";
 
 export const EditorDetailPage = () => {
     const fetchedEditor = useLoaderData();
+    const [modal, setModal] = useState(false);
 
-    return (<MainWrapperComponent>
+    const toggleModal = () => {
+        setModal((prevState) => !prevState);
+    }
+
+    const editorDeleteHandler =  async () => {
+        const relativeUrl =  prepareURL(API_CONFIG.ENDPOINTS.EDITOR);
+        const urlWithPathVariable =  addPathVariablesToURL(relativeUrl, fetchedEditor.email);
+         await deleteHandler(urlWithPathVariable);
+        return redirect("..");
+    }
+
+    return (<>
+        {
+            modal &&
+            <DeleteModalComponent
+                header={"Are you sure you want to delete this Editor?"}
+                message={`This action cannot be undone and will delete all the information related to editor ${fetchedEditor.firstName + " " + fetchedEditor.lastName}`}
+                toggleModal={toggleModal}
+                handleDelete={editorDeleteHandler}
+            />}
+        <MainWrapperComponent>
         <QueryManager>
             <QueryManagerButton label={"Update Editor"} to={"edit"}/>
+            <QueryManagerDeleteButtonMetaComponent label={"Delete Editor"} setModal={toggleModal}/>
             <QueryManagerButton label={"Back"} to={".."}/>
         </QueryManager>
         <MainCardWrapper>
@@ -96,7 +129,8 @@ export const EditorDetailPage = () => {
             </InputSectionMetaComponent>
             <SectionDividerMetaComponent/>
         </MainCardWrapper>
-    </MainWrapperComponent>)
+    </MainWrapperComponent>
+    </>)
 }
 
 export const loader = async ({params}) => {
@@ -105,4 +139,16 @@ export const loader = async ({params}) => {
     const urlWithPathVariable = addPathVariablesToURL(relativeUrl, email);
     const urlWithParameters = addParametersToURL(urlWithPathVariable, {"get-details": true});
     return await apiLoader(urlWithParameters);
+}
+
+export const action = async ({request,params}) => {
+const data = await request.formData();
+    console.log(data)
+    console.log(request)
+
+    const {email} = params;
+    const relativeUrl = prepareURL(API_CONFIG.ENDPOINTS.EDITOR);
+    const urlWithPathVariable = addPathVariablesToURL(relativeUrl, email);
+    await deleteHandler(urlWithPathVariable);
+    return redirect("..")
 }

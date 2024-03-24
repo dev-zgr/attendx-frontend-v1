@@ -23,7 +23,7 @@ export const HeaderComponent = () => {
         }
     }
     return (
-        <div className={"sticky top-0 px-10 py-6 pt-6 lg:pt-8  backdrop-blur-2xl text-slate-700 font-semibold text-sm leading-6 dark:text-slate-200 border-b border-slate-900/10 z-50  w-full"}>
+        <div className={"sticky top-0 px-10 py-6 pt-6 lg:pt-8  backdrop-blur-2xl text-slate-700 font-semibold text-sm leading-6 dark:text-slate-200 border-b border-slate-900/10 z-30  w-full"}>
             <header className={"flex justify-between"} >
                 <nav >
                     <ul className={"flex items-center gap-x-8"}>

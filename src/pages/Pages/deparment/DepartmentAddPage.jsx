@@ -19,7 +19,7 @@ export const DepartmentAddPage = () => {
             <QueryManager>
                 <QueryManagerButton label={"Back"} to={".."}></QueryManagerButton>
             </QueryManager>
-            <GenericFormManager>
+            <GenericFormManager method={"POST"}>
                 <SectionHeaderMetaComponent header={"Department"}/>
                 <SectionDescriptionMetaComponent description={"This information will be displayed on the department description"}/>
                 <InputSectionMetaComponent>
@@ -43,14 +43,16 @@ export async function action({request}) {
     }
 
     const response = await fetch(prepareURL(API_CONFIG.ENDPOINTS.DEPARTMENT), {
-        method: "POST",
+        method: request.method,
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(body)
     });
 
-    if(!response.ok) {
+
+
+    if(response.status === 500 || response.status !== 201) {
         throw new Response(JSON.stringify({message: "Failed to create event"}), {status: 500});
     }
     return redirect("..")

@@ -16,9 +16,9 @@ export const EditorAddPage = () => {
         <>
             <MainWrapperComponent>
                 <QueryManager/>
-                <GenericFormManager>
-                    <SectionHeaderMetaComponent header={"Student"}/>
-                    <SectionDescriptionMetaComponent description={"This information will be used for storing student information"}/>
+                <GenericFormManager method={"POST"}>
+                    <SectionHeaderMetaComponent header={"Editor"}/>
+                    <SectionDescriptionMetaComponent description={"This information will be used for storing editor information"}/>
                     <InputSectionMetaComponent>
                         <TextInputMetaComponent name={"firstName"} label={"First Name"} placeholder={"eg. Özgür"} size={3} validator={(text) => textValidator(text,60)}/>
                         <TextInputMetaComponent name={"lastName"} label={"Last Name"} placeholder={"eg. Kamalı"} size={3} validator={(text) => textValidator(text,60)}/>
@@ -64,7 +64,7 @@ export async function action({request}) {
     }
 
     const response = await fetch(prepareURL(API_CONFIG.ENDPOINTS.EDITOR), {
-        method: "POST",
+        method: request.method,
         headers: {
             "Content-Type": "application/json"
         },

@@ -30,10 +30,9 @@ export const DepartmentDetailPage = () => {
                 <InputSectionMetaComponent>
                     <TextInputMetaComponent name={"departmentName"}
                                             label={"Department Name"}
-                                            placeholder={"eg. Department of Engineering"}
                                             size={3}
-                                            validator={(text) => textValidator(text, 60)}
                                             value={fetchedDepartment.departmentName}
+                                            validator={(text) => textValidator(text, 60)}
                                             disabled={true}
                     />
                     <BlobInputMetaComponent name={"description"}
@@ -61,7 +60,7 @@ export const DepartmentDetailPage = () => {
                 <SubItemCardMetaComponent>
                     <SectionHeaderMetaComponent header={"Courses"}/>
                     <SectionDescriptionMetaComponent
-                        description={"Courses CoursesCoursesCourses offered in this department..."}/>
+                        description={"Courses offered in this department..."}/>
                     <SubItemListWrapper>
                         {fetchedDepartment.offeredCourses.map((course, index) => {
                             return (

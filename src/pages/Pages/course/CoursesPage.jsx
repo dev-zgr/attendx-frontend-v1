@@ -25,7 +25,7 @@ export const CoursesPage = () => {
                             main={`${course.courseCode} - ${course.courseName}`}
                             optional={course.departmentName}
                             description={course.description}
-                            id={course.courseName}
+                            id={course.courseCode}
                             key={index}
                             index={index}
                         />
@@ -36,7 +36,7 @@ export const CoursesPage = () => {
     )
 }
 
-export async function loader ({request,params}) {
+export async function loader ({request}) {
     const extractedParameters = extractParameters(request.url);
     return genericLoader(API_CONFIG.ENDPOINTS.COURSE, extractedParameters);
 }

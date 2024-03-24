@@ -58,6 +58,24 @@ const apiLoader = async (url) => {
     }
 }
 
+export const deleteHandler = async (url) => {
+    const response = await fetch(url, {
+        method: 'DELETE',
+    });
+    if (response.status === 202) {
+        return await response.json();
+    } else if(response.status === 417){
+         throw new Error("Cannot delete this record as it is being used in other records");
+    }else {
+        throw new Error("Something went wrong");
+    }
+}
+
+export const convertDateFormat = (originalDate) => {
+    const [year, month, day] = originalDate.split('-');
+    return `${day}-${month}-${year}`; // Assuming the input date format is YYYY-MM-DD
+};
+
 
 
 

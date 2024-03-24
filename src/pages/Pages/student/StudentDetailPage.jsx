@@ -20,7 +20,7 @@ export const StudentDetailPage = () => {
             <QueryManagerButton label={"Back"} to={".."}/>
         </QueryManager>
         <MainCardWrapper>
-            <SectionHeaderMetaComponent header={`Editor: ${fetchedStudent.firstName}  ${fetchedStudent.lastName}`}/>
+            <SectionHeaderMetaComponent header={`Student: ${fetchedStudent.firstName}  ${fetchedStudent.lastName}`}/>
             <InputSectionMetaComponent>
                 <TextInputMetaComponent name={"firstName"}
                                         label={"First Name"}
@@ -46,12 +46,17 @@ export const StudentDetailPage = () => {
                                         size={3}
                                         disabled={true}
                 />
-                <TextInputMetaComponent name={"password"}
-                                        label={"Password"}
-                                        value={fetchedStudent.password}
-                                        type={"password"}
-                                        disabled={true}
-                                        size={3}/>
+                <TextInputMetaComponent
+                    label={"Password"}
+                    value={fetchedStudent.password}
+                    type={"password"}
+                    disabled={true}
+                    size={3}/>
+                <TextInputMetaComponent
+                    label={"Student Number"}
+                    value={fetchedStudent.studentNumber}
+                    disabled={true}
+                    size={3}/>
             </InputSectionMetaComponent>
             <SectionDividerMetaComponent/>
             <SectionHeaderMetaComponent header={"Address"}/>
@@ -94,7 +99,6 @@ export const StudentDetailPage = () => {
                                         size={3} disabled={true}
                 />
             </InputSectionMetaComponent>
-            <SectionDividerMetaComponent/>
         </MainCardWrapper>
     </MainWrapperComponent>)
 }
