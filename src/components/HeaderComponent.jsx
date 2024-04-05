@@ -3,11 +3,13 @@ import {useSelector} from "react-redux";
 import {ROLE_CONSTANTS, VISIBLE_MENU_ITEMS} from "../config/config";
 
 export const HeaderComponent = () => {
-    // access the login state here to render menus based on the login state
+    console.log("RENDERED");
     const sessionState = useSelector(state => state.accountDetailsSlice);
     let menuSections = VISIBLE_MENU_ITEMS.loggedOut.sections;
-    const accountSections = sessionState.isLogged ? VISIBLE_MENU_ITEMS.loggedIn.accountItems : VISIBLE_MENU_ITEMS.loggedOut.accountItems;
+    let accountSections = VISIBLE_MENU_ITEMS.loggedOut.accountItems;
+    console.log("account sections" +  JSON.stringify(accountSections));
     if (sessionState.isLogged && sessionState.userDetails !== null) {
+        accountSections = VISIBLE_MENU_ITEMS.loggedIn.accountItems
         switch (sessionState.userDetails.role) {
             case ROLE_CONSTANTS.EDITOR:
                 menuSections = VISIBLE_MENU_ITEMS.loggedIn.sections.editor;
@@ -20,8 +22,12 @@ export const HeaderComponent = () => {
                 break;
             default:
                 menuSections = VISIBLE_MENU_ITEMS.loggedOut.sections;
+                accountSections = VISIBLE_MENU_ITEMS.loggedOut.accountItems
         }
     }
+    console.log("account sections" + JSON.stringify(accountSections));
+
+
     return (
         <div className={"sticky top-0 px-10 py-6 pt-6 lg:pt-8  backdrop-blur-2xl text-slate-700 font-semibold text-sm leading-6 dark:text-slate-200 border-b border-slate-900/10 z-30  w-full"}>
             <header className={"flex justify-between"} >

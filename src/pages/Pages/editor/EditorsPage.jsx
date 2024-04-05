@@ -1,50 +1,70 @@
 import {useLoaderData} from "react-router-dom";
-import {MainWrapperComponent} from "../../../components/MainWrapperComponent";
-import {ListWrapperComponent} from "../../../components/ListWrapperComponent";
+import {MainWrapperComponent} from "../../../components/Wrappers/MainWrapperComponent";
+import {ListWrapperComponent} from "../../../components/Wrappers/ListWrapperComponent";
 import {ItemCardMetaComponent} from "../../../meta-components/cards/ItemCardMetaComponent";
 import {addParametersToURL, extractParameters, prepareURL} from "../../../utilityFunctions/apiHandling";
-import {API_CONFIG, WATERMARKS} from "../../../config/config";
+import {API_CONFIG, DATA_LIST_URL_PARAMETERS, WATERMARKS} from "../../../config/config";
 import {getRandomElement} from "../../../utilityFunctions/pageLogic";
 import {QueryManagerButton} from "../../../meta-components/buttons/QueryManagerButton";
 import {QueryManager} from "../../../components/QueryManager";
 import {SelectMetaComponent} from "../../../meta-components/buttons/SelectMetaComponent";
+import {useState} from "react";
+import {PaginationManagerComponent} from "../../../components/PaginationManagerComponent";
 
 export const EditorsPage = () => {
-    const fetchedEditors = useLoaderData();
+    const [urlParameters, setUrlParameters] = useState(DATA_LIST_URL_PARAMETERS);
+    const fetchedData = useLoaderData();
+
+
 
     return (
-        <MainWrapperComponent>
-            <QueryManager>
-            <QueryManagerButton label={"Add Editor"} to={"new"}/>
-                <SelectMetaComponent/>
-            </QueryManager>
-            <ListWrapperComponent>
+        <>
+            <MainWrapperComponent>
+                <QueryManager>
+                    <QueryManagerButton label={"Add Editor"} to={"new"}/>
+                    <SelectMetaComponent urlParameters={urlParameters} setUrlParameters={setUrlParameters}/>
+                </QueryManager>
                 {
-                    fetchedEditors.map((editor,index) => {
-                        return <ItemCardMetaComponent
-                            watermark={getRandomElement(WATERMARKS.EDITOR)}
-                            main={`${editor.firstName} ${editor.lastName}`}
-                            description={editor.email}
-                            id={editor.email}
-                            key={index}
-                        />
-                    })
+                    fetchedData.data.length > 0 ?
+                        <ListWrapperComponent>
+                            {
+
+                                fetchedData.data.map((editor, index) => {
+                                    return <ItemCardMetaComponent
+                                        watermark={getRandomElement(WATERMARKS.EDITOR)}
+                                        main={`${editor.firstName} ${editor.lastName}`}
+                                        description={editor.email}
+                                        id={editor.email}
+                                        key={index}
+                                    />
+                                })
+                            }
+                            <PaginationManagerComponent pageCount={fetchedData.pageNumber} urlParameters={urlParameters}
+                                                        setUrlParameters={setUrlParameters}/>
+                        </ListWrapperComponent> :
+                        <h2 className={"col-start-5 col-end-8 font-semibold mt-8 mb-2 text-slate-900 text-2xl"}>No
+                            Editors
+                            Found!</h2>
                 }
-            </ListWrapperComponent>
-        </MainWrapperComponent>
+            </MainWrapperComponent>
+        </>
+
     )
 }
 
-export async function loader ({request,params}) {
+export async function loader({request}) {
     const extractedParameters = extractParameters(request.url);
     const firstUrl = prepareURL(API_CONFIG.ENDPOINTS.EDITOR);
     const newUrl = addParametersToURL(firstUrl, extractedParameters);
-    const response = await fetch(newUrl);
+    const response = await fetch(newUrl, {
+        headers: {
+            "Authorization": localStorage.getItem("token") || ""
+        }
+    });
+    console.log(response.status)
     if (response.status === 200) {
-        const responseData =  await response.json();
-        return responseData;
-    } else {
-        const resData =  await response.json();
-        return resData;
+        return response.json();
+    } else if (response.status === 401) {
+        throw new Response(JSON.stringify({header: "You aren't allowed to be here ❌", description: "401 Unauthorized"}), {status: 401});
     }
 }

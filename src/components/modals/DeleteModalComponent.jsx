@@ -1,7 +1,7 @@
-import {ModalComponent} from "./ModalComponent";
+import {ModalComponent} from "../ModalComponent";
 import {Form} from "react-router-dom";
 
-export const DeleteModalComponent = ({toggleModal, header, message, handleDelete}) => {
+export const DeleteModalComponent = ({toggleModal, header, message}) => {
     return (
         <ModalComponent>
             <Form method={"DELETE"}>
@@ -11,7 +11,7 @@ export const DeleteModalComponent = ({toggleModal, header, message, handleDelete
                     <button type="button" onClick={toggleModal}
                             className="text-sm font-semibold leading-6 text-slate-900 hover:underline underline-offset-2">Cancel
                     </button>
-                    <button onClick={handleDelete}
+                    <button
                             className="rounded-md bg-red-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Delete
                     </button>
                 </div>

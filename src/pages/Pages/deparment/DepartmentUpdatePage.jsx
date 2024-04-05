@@ -1,4 +1,4 @@
-import {MainWrapperComponent} from "../../../components/MainWrapperComponent";
+import {MainWrapperComponent} from "../../../components/Wrappers/MainWrapperComponent";
 import {QueryManager} from "../../../components/QueryManager";
 import {QueryManagerButton} from "../../../meta-components/buttons/QueryManagerButton";
 import {GenericFormManager} from "../../../components/GenericFormManager";
@@ -9,38 +9,107 @@ import {TextInputMetaComponent} from "../../../meta-components/form/inputs/TextI
 import {textValidator} from "../../../utilityFunctions/validator";
 import {BlobInputMetaComponent} from "../../../meta-components/form/inputs/BlobInputMetaComponent";
 import {SectionDividerMetaComponent} from "../../../meta-components/form/sections/SectionDividerMetaComponent";
-import {useLoaderData} from "react-router-dom";
+import {useActionData, useLoaderData, useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {ErrorPage} from "../../error/ErrorPage";
+import {MODAL_CODES, ROLE_CONSTANTS} from "../../../config/config";
+import React, {useEffect} from "react";
+import {UIActions} from "../../../store/slices/UISlice";
+import {InfoModalComponent} from "../../../components/modals/InfoModalComponent";
 
 export const DepartmentUpdatePage = () => {
     const fetchedDepartment = useLoaderData();
+    const sessionState = useSelector(state => state.accountDetailsSlice);
+    const actionData = useActionData();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const UISlice = useSelector(state => state.UISlice);
+    useEffect(() => {
+        if (actionData === 201) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_ADD_ACTION_201));
+            dispatch(UIActions.showModal());
+            setTimeout(() => {
+                dispatch(UIActions.hideModal());
+                navigate("..");
+            }, 2000);
+        } else if (actionData === 400) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_ADD_ACTION_400));
+            dispatch(UIActions.showModal());
+        } else if (actionData === 500) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_ADD_ACTION_500));
+            dispatch(UIActions.showModal());
+        }
+    }, [actionData, dispatch, navigate]);
+
+    const toggleModal = () => {
+        dispatch(UIActions.hideModal());
+    }
     return (
-        <MainWrapperComponent>
-            <QueryManager>
-                <QueryManagerButton label={"Back"} to={".."}></QueryManagerButton>
-            </QueryManager>
-            <GenericFormManager method={"PUT"}>
-                <SectionHeaderMetaComponent header={`Editing: ${fetchedDepartment.departmentName}`}/>
-                <SectionDescriptionMetaComponent
-                    description={"You're currently editing the department. Changes will be permanent after you click save button"}/>
-                <InputSectionMetaComponent>
-                    <TextInputMetaComponent
-                        name={"departmentName"}
-                        label={"Department Name"}
-                        placeholder={"eg. Department of Engineering"}
-                        size={3}
-                        value={fetchedDepartment.departmentName}
-                        validator={(text) => textValidator(text, 60)}
-                        disabled={true}
+
+        <>
+            {
+                sessionState.isLogged && sessionState.userDetails.role === ROLE_CONSTANTS.EDITOR ?
+
+                    <>
+                        {
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_500 &&
+                            <InfoModalComponent
+                                header={"Internal Server Error"}
+                                message={"Department Addition failed, please try again later!"}
+                                toggleModal={toggleModal}
+                            />
+                        }
+                        {
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_400 &&
+                            <InfoModalComponent
+                                header={"Bad Data"}
+                                message={"Please check all the fields again!"}
+                                toggleModal={toggleModal}
+                            />
+                        }
+                        {
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_201 &&
+                            <InfoModalComponent
+                                header={"Department Added Successfully"}
+                                message={"We're redirect you to department page!"}
+                                toggleModal={toggleModal}
+                            />
+
+                        }
+                    <MainWrapperComponent>
+                        <QueryManager>
+                            <QueryManagerButton label={"Back"} to={".."}></QueryManagerButton>
+                        </QueryManager>
+                        <GenericFormManager method={"PUT"}>
+                            <SectionHeaderMetaComponent header={`Editing: ${fetchedDepartment.departmentName}`}/>
+                            <SectionDescriptionMetaComponent
+                                description={"You're currently editing the department. Changes will be permanent after you click save button"}/>
+                            <InputSectionMetaComponent>
+                                <TextInputMetaComponent
+                                    name={"departmentName"}
+                                    label={"Department Name"}
+                                    placeholder={"eg. Department of Engineering"}
+                                    size={3}
+                                    value={fetchedDepartment.departmentName}
+                                    validator={(text) => textValidator(text, 60)}
+                                    disabled={true}
+                                />
+                                <BlobInputMetaComponent
+                                    value={fetchedDepartment.description}
+                                    name={"description"}
+                                    label={"Description"}
+                                    validator={(text) => textValidator(text, 255)}/>
+                            </InputSectionMetaComponent>
+                            <SectionDividerMetaComponent/>
+                        </GenericFormManager>
+                    </MainWrapperComponent>
+                    </>
+                    : <ErrorPage
+                        header={"You aren't allowed to be here❌"}
+                        description={"404 Unauthorized"}
                     />
-                    <BlobInputMetaComponent
-                        value={fetchedDepartment.description}
-                        name={"description"}
-                        label={"Description"}
-                        validator={(text) => textValidator(text, 255)}/>
-                </InputSectionMetaComponent>
-                <SectionDividerMetaComponent/>
-            </GenericFormManager>
-        </MainWrapperComponent>
+            }
+        </>
     )
 }
 

@@ -8,7 +8,7 @@ import {SectionDescriptionMetaComponent} from "../../../meta-components/form/sec
 import {InputSectionMetaComponent} from "../../../meta-components/form/sections/InputSectionMetaComponent";
 import {TextInputMetaComponent} from "../../../meta-components/form/inputs/TextInputMetaComponent";
 import {SectionDividerMetaComponent} from "../../../meta-components/form/sections/SectionDividerMetaComponent";
-import {MainWrapperComponent} from "../../../components/MainWrapperComponent";
+import {MainWrapperComponent} from "../../../components/Wrappers/MainWrapperComponent";
 import {numberValidator, textValidator} from "../../../utilityFunctions/validator";
 import {QueryManagerButton} from "../../../meta-components/buttons/QueryManagerButton";
 
@@ -68,7 +68,7 @@ export async function action({request}) {
     }
 
     const response = await fetch(prepareURL(API_CONFIG.ENDPOINTS.STUDENT), {
-        method: "POST",
+        method: request.method,
         headers: {
             "Content-Type": "application/json"
         },
@@ -78,5 +78,5 @@ export async function action({request}) {
     if(!response.ok) {
         throw new Response(JSON.stringify({message: "Failed to create event"}), {status: 500});
     }
-    return redirect("..")
+    return true;
 }

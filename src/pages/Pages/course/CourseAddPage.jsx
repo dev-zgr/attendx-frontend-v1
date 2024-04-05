@@ -1,7 +1,7 @@
 import {convertDateFormat, prepareURL} from "../../../utilityFunctions/apiHandling";
 import {API_CONFIG, OPTION_CODES} from "../../../config/config";
 import {redirect} from "react-router-dom";
-import {MainWrapperComponent} from "../../../components/MainWrapperComponent";
+import {MainWrapperComponent} from "../../../components/Wrappers/MainWrapperComponent";
 import {QueryManager} from "../../../components/QueryManager";
 import {GenericFormManager} from "../../../components/GenericFormManager";
 import {SectionHeaderMetaComponent} from "../../../meta-components/form/sections/SectionHeaderMetaComponent";

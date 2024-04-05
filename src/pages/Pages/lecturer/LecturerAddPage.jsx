@@ -1,4 +1,4 @@
-import {MainWrapperComponent} from "../../../components/MainWrapperComponent";
+import {MainWrapperComponent} from "../../../components/Wrappers/MainWrapperComponent";
 import {QueryManager} from "../../../components/QueryManager";
 import {GenericFormManager} from "../../../components/GenericFormManager";
 import {SectionHeaderMetaComponent} from "../../../meta-components/form/sections/SectionHeaderMetaComponent";

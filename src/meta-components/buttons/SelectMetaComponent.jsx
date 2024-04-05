@@ -1,10 +1,20 @@
 import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
 
-export const SelectMetaComponent = () => {
+export const SelectMetaComponent = ({urlParameters, setUrlParameters}) => {
     const navigate = useNavigate();
 
+    useEffect(() => {
+        navigate(`?page-no=${urlParameters.page.value}&ascending=${urlParameters.sort.value}`)
+    },[urlParameters.pageNo, urlParameters.ascending, navigate, urlParameters.page.value, urlParameters.sort.value])
     const onChangeHandler = (event) => {
-        navigate(`?ascending=${event.target.value}`);
+        setUrlParameters((prevState) => {
+            return {
+                ...prevState,
+                sort: {...prevState.sort, value: event.target.value}
+            }
+
+        })
     }
     return (
 

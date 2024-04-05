@@ -50,7 +50,12 @@ const genericLoader = async (url, parameters) => {
 }
 
 const apiLoader = async (url) => {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+        headers: {
+            "Authorization": localStorage.getItem("token") || ""
+        },
+
+    });
     if (response.status === 200) {
         return await response.json();
     } else {
@@ -58,9 +63,41 @@ const apiLoader = async (url) => {
     }
 }
 
+export const fileDownloadHandler = async (url) => {
+    const preparedUrl = prepareURL(url)
+    console.log(preparedUrl);
+    fetch(preparedUrl,
+        {
+            headers: {
+                'Content-Type': 'application/csv',
+            }
+        }).then((blob) => {
+            const url = window.URL.createObjectURL(
+                new Blob([blob])
+            )
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute(
+            'download',
+            `attendance.csv`,
+        );
+
+        // Append to html link element page
+        document.body.appendChild(link);
+
+        // Start download
+        link.click();
+
+        // Clean up and remove the link
+        link.parentNode.removeChild(link);
+    })
+}
 export const deleteHandler = async (url) => {
     const response = await fetch(url, {
         method: 'DELETE',
+    headers: {
+        "Authorization": localStorage.getItem("token") || ""
+    },
     });
     if (response.status === 202) {
         return await response.json();
