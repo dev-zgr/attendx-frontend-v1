@@ -52,10 +52,10 @@ export const DepartmentAddPage = () => {
                     <>
 
                         {
-                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_500 &&
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_201 &&
                             <InfoModalComponent
-                                header={"Internal Server Error"}
-                                message={"Department Addition failed, please try again later!"}
+                                header={"Department Added Successfully"}
+                                message={"We're redirect you to department page!"}
                                 toggleModal={toggleModal}
                             />
                         }
@@ -68,13 +68,12 @@ export const DepartmentAddPage = () => {
                             />
                         }
                         {
-                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_201 &&
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_500 &&
                             <InfoModalComponent
-                                header={"Department Added Successfully"}
-                                message={"We're redirect you to department page!"}
+                                header={"Internal Server Error"}
+                                message={"Department Addition failed, please try again later!"}
                                 toggleModal={toggleModal}
                             />
-
                         }
                         <MainWrapperComponent>
                             <QueryManager>
@@ -110,11 +109,8 @@ export const DepartmentAddPage = () => {
 }
 
 
-export async function action({
-                                 request
-                             }) {
+export async function action({request}) {
     const data = await request.formData();
-
     const body = {
         departmentName: data.get("departmentName"),
         description: data.get("description")
@@ -123,10 +119,14 @@ export async function action({
     const response = await fetch(prepareURL(API_CONFIG.ENDPOINTS.DEPARTMENT), {
         method: request.method,
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("token") || ""
         },
         body: JSON.stringify(body)
     });
     const returnedResponse = await response;
+    if(returnedResponse.status === 401){
+        throw new Response(JSON.stringify({header: "You aren't allowed to be here❌", description: "401 Unauthorized"}), {status: 401});
+    }
     return returnedResponse.status;
 }

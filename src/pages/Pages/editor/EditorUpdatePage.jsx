@@ -13,22 +13,33 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {UIActions} from "../../../store/slices/UISlice";
 import {InfoModalComponent} from "../../../components/modals/InfoModalComponent";
+import {MODAL_CODES} from "../../../config/config";
 
 export const EditorUpdatePage = () => {
     const fetchedEditor = useLoaderData();
-    const UIState = useSelector(state => state.UISlice);
+    const UISlice = useSelector(state => state.UISlice);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const actionData = useActionData();
 
 
     useEffect(() => {
-        if (actionData) {
+        if (actionData === 202) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_UPDATE_ACTION_202));
             dispatch(UIActions.showModal());
             setTimeout(() => {
                 dispatch(UIActions.hideModal());
                 navigate("..");
             }, 2000);
+        } else if (actionData === 400) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_UPDATE_ACTION_400));
+            dispatch(UIActions.showModal());
+        }else if (actionData === 404) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_UPDATE_ACTION_404));
+            dispatch(UIActions.showModal());
+        } else if (actionData === 500) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_UPDATE_ACTION_500));
+            dispatch(UIActions.showModal());
         }
     }, [actionData, dispatch, navigate]);
 
@@ -41,14 +52,38 @@ export const EditorUpdatePage = () => {
     return (
 
         <>
-            {
-                UIState.showModal &&
+            {UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_UPDATE_ACTION_202 &&
                 <InfoModalComponent
-                    header={"Editor Updated"}
-                    message={"Editor has updated successfully!"}
+                    header={"Editor Updated Successfully"}
+                    message={"You'll be redirected to the editor page shortly."}
                     toggleModal={toggleModal}
                 />
             }
+
+            {UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_UPDATE_ACTION_400 &&
+                <InfoModalComponent
+                    header={"Bad Data"}
+                    message={"Please review all fields and try again."}
+                    toggleModal={toggleModal}
+                />
+            }
+
+            {UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_UPDATE_ACTION_404 &&
+                <InfoModalComponent
+                    header={"Editor Not Found"}
+                    message={"The editor you are trying to update could not be found. Please try again later."}
+                    toggleModal={toggleModal}
+                />
+            }
+
+            {UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_UPDATE_ACTION_500 &&
+                <InfoModalComponent
+                    header={"Internal Server Error"}
+                    message={"Failed to update editor due to server error. Please try again later."}
+                    toggleModal={toggleModal}
+                />
+            }
+
             <MainWrapperComponent>
                 <QueryManager>
                     <QueryManagerButton label={"Back"} to={".."}></QueryManagerButton>

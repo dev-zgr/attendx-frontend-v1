@@ -17,7 +17,6 @@ export const LoginPage = () => {
     const navigate = useNavigate();
     const UISlice = useSelector(state => state.UISlice);
     const accountSlice = useSelector(state => state.accountDetailsSlice);
-    console.log(actionData);
     useEffect(() => {
         if (actionData?.status === 200) {
             localStorage.setItem("token", actionData.token);
@@ -28,7 +27,6 @@ export const LoginPage = () => {
                 dispatch(UIActions.hideModal());
                 navigate("/");
             }, 2000);
-            console.log(accountSlice);
         } else if (actionData?.status === 400) {
             dispatch(UIActions.setOpcode(MODAL_CODES.LOGIN_UI_ACTION_400));
             dispatch(UIActions.showModal());

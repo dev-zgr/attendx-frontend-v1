@@ -43,13 +43,14 @@ const genericLoader = async (url, parameters) => {
     const response = await fetch(newUrl);
     if (response.status === 200) {
         return await response.json();
+    }else if(response.status === 500){
+        throw new Error("Something went wrong")
     } else {
         return await response.json();
     }
-
 }
 
-const apiLoader = async (url) => {
+const apiLoader = async (url,source) => {
     const response = await fetch(url, {
         headers: {
             "Authorization": localStorage.getItem("token") || ""
@@ -58,14 +59,20 @@ const apiLoader = async (url) => {
     });
     if (response.status === 200) {
         return await response.json();
-    } else {
+    } else if(response.status === 500){
+        throw new Error("Something went wrong")
+    }else if(response.status === 401){
+        throw new Response(JSON.stringify({header: "You aren't allowed to be here ❌", description: "401 Unauthorized"}), {status: 401});
+    }else if(response.status === 404){
+        throw new Response(JSON.stringify({header: `${source} Not Found 🔎`, description:` "We couldn't find the ${source} you've looking for..."`}), {status: 404});
+    }else {
         return await response.json();
     }
+
 }
 
 export const fileDownloadHandler = async (url) => {
     const preparedUrl = prepareURL(url)
-    console.log(preparedUrl);
     fetch(preparedUrl,
         {
             headers: {
@@ -92,19 +99,26 @@ export const fileDownloadHandler = async (url) => {
         link.parentNode.removeChild(link);
     })
 }
-export const deleteHandler = async (url) => {
+export const deleteHandler = async (url,source) => {
     const response = await fetch(url, {
         method: 'DELETE',
     headers: {
         "Authorization": localStorage.getItem("token") || ""
     },
     });
+
     if (response.status === 202) {
-        return await response.json();
-    } else if(response.status === 417){
-         throw new Error("Cannot delete this record as it is being used in other records");
+        return response.status;
+    } else if(response.status === 500){
+        throw new Error("Something went wrong")
+    }else if(response.status === 401){
+        throw new Response(JSON.stringify({header: "You aren't allowed to be here ❌", description: "401 Unauthorized"}), {status: 401});
+    }else if(response.status === 404){
+        throw new Response(JSON.stringify({header: `${source} Not Found 🔎`, description:` "We couldn't find the ${source} you've looking for..."`}), {status: 404});
+    }else if(response.status === 417){
+        return response.status;
     }else {
-        throw new Error("Something went wrong");
+        return await response.json();
     }
 }
 

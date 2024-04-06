@@ -64,8 +64,10 @@ export const DepartmentDetailPage = () => {
                                             <SubItemListWrapper>
                                                 {fetchedDepartment.lecturers.map((lecturer, index) => {
                                                     return (
-                                                        <SubListListItemMetaComponent key={index}
-                                                                                      to={`/lecturer/${lecturer.email}`}
+                                                        <SubListListItemMetaComponent
+                                                            key={index}
+                                                            to={`/lecturer/${lecturer.email}`}
+                                                            showLink={sessionState.userDetails.role === ROLE_CONSTANTS.EDITOR}
                                                         >{`${lecturer.firstName} ${lecturer.lastName}`}</SubListListItemMetaComponent>
                                                     )
                                                 })}
@@ -86,8 +88,10 @@ export const DepartmentDetailPage = () => {
                                             <SubItemListWrapper>
                                                 {fetchedDepartment.offeredCourses.map((course, index) => {
                                                     return (
-                                                        <SubListListItemMetaComponent key={index}
-                                                                                      to={`/course/${course.courseCode}`}
+                                                        <SubListListItemMetaComponent
+                                                            key={index}
+                                                            to={`/course/${course.courseCode}`}
+                                                            showLink={sessionState.userDetails.role === ROLE_CONSTANTS.EDITOR}
                                                         >{`${course.courseCode}-${course.courseName}`}</SubListListItemMetaComponent>
                                                     )
                                                 })}
@@ -112,5 +116,5 @@ export const loader = async ({params}) => {
     const relativeUrl = prepareURL(API_CONFIG.ENDPOINTS.DEPARTMENT);
     const urlWithPathVariable = addPathVariablesToURL(relativeUrl, departmentName);
     const urlWithParameters = addParametersToURL(urlWithPathVariable, {"get-details": true});
-    return await apiLoader(urlWithParameters);
+    return await apiLoader(urlWithParameters, "Department");
 }

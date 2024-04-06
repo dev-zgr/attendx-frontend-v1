@@ -18,7 +18,8 @@ import {SubListListItemMetaComponent} from "../../../meta-components/List/SubLis
 export const LecturerDetailPage = () => {
     const fetchedLecturer = useLoaderData();
 
-    return (<MainWrapperComponent>
+    return (
+        <MainWrapperComponent>
         <QueryManager>
             <QueryManagerButton label={"Update Lecturer"} to={"edit"}/>
             <QueryManagerButton label={"Back"} to={".."}/>
@@ -125,7 +126,8 @@ export const LecturerDetailPage = () => {
             </SubItemCardMetaComponent>
         </MainGridWrapper>
 
-    </MainWrapperComponent>)
+    </MainWrapperComponent>
+    )
 
 }
 
@@ -134,5 +136,5 @@ export const loader = async ({params}) => {
     const relativeUrl = prepareURL(API_CONFIG.ENDPOINTS.LECTURER);
     const urlWithPathVariable = addPathVariablesToURL(relativeUrl, email);
     const urlWithParameters = addParametersToURL(urlWithPathVariable, {"get-details": true});
-    return await apiLoader(urlWithParameters);
+    return await apiLoader(urlWithParameters, "Lecturer");
 }

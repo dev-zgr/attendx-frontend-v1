@@ -5,7 +5,7 @@ import {
     deleteHandler,
     prepareURL
 } from "../../../utilityFunctions/apiHandling";
-import {API_CONFIG, ROLE_CONSTANTS} from "../../../config/config";
+import {API_CONFIG, MODAL_CODES, ROLE_CONSTANTS} from "../../../config/config";
 import {useActionData, useLoaderData, useNavigate} from "react-router-dom";
 import {MainWrapperComponent} from "../../../components/Wrappers/MainWrapperComponent";
 import {QueryManagerButton} from "../../../meta-components/buttons/QueryManagerButton";
@@ -31,7 +31,7 @@ export const EditorDetailPage = () => {
     const actionData = useActionData();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const UIState = useSelector(state => state.UISlice);
+    const UISlice = useSelector(state => state.UISlice);
     const sessionState = useSelector(state => state.accountDetailsSlice);
 
     const closeModal = () => {
@@ -39,32 +39,33 @@ export const EditorDetailPage = () => {
     }
 
     useEffect(() => {
-        if (actionData) {
+        if (actionData === 202) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_DELETE_ACTION_202));
             dispatch(UIActions.showModal());
             setTimeout(() => {
                 dispatch(UIActions.hideModal());
                 navigate("..");
             }, 2000);
+        } else if (actionData === 404) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_DELETE_ACTION_404));
+            dispatch(UIActions.showModal());
+        }else if (actionData === 417) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_DELETE_ACTION_417));
+            dispatch(UIActions.showModal());
+        } else if (actionData === 500) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_DELETE_ACTION_500));
+            dispatch(UIActions.showModal());
         }
     }, [actionData, dispatch, navigate]);
 
     const openModal = () => {
+        dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_DELETE_CONFIRMATION));
         dispatch(UIActions.showModal());
     }
 
-    if (UIState.showModal && actionData) {
-        return (
-            <>
-                {
-                    UIState.showModal &&
-                    <InfoModalComponent
-                        header={"Editor Deleted!"}
-                        message={"Editor has been deleted successfully!"}
-                        toggleModal={closeModal}
-                    />
-                }
-            </>
-        )
+    const toggleModal = () => {
+        dispatch(UIActions.hideModal());
+        navigate("..")
     }
     return (
         <>
@@ -73,13 +74,41 @@ export const EditorDetailPage = () => {
                 sessionState.isLogged && sessionState.userDetails.role === ROLE_CONSTANTS.EDITOR ?
                     <>
                         {
-                            UIState.showModal &&
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_DELETE_CONFIRMATION &&
                             <DeleteModalComponent
                                 header={"Are you sure you want to delete this Editor?"}
                                 message={`This action cannot be undone and will delete all the information related to editor ${fetchedEditor.firstName + " " + fetchedEditor.lastName}`}
                                 toggleModal={closeModal}
                             />
 
+                        }
+                        {UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_DELETE_ACTION_202 &&
+                            <InfoModalComponent
+                                header={"Editor deleted Successfully"}
+                                message={"You'll be redirected to the editor page shortly."}
+                                toggleModal={toggleModal}
+                            />
+                        }
+                        {UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_DELETE_ACTION_404 &&
+                            <InfoModalComponent
+                                header={"Editor Not Found"}
+                                message={"The editor you are trying to update could not be found. Please try again later."}
+                                toggleModal={toggleModal}
+                            />
+                        }
+                        {UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_DELETE_ACTION_417 &&
+                            <InfoModalComponent
+                                header={"Expectation Failed"}
+                                message={"Editor couldn't deleted please try again later."}
+                                toggleModal={toggleModal}
+                            />
+                        }
+                        {UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_DELETE_ACTION_500 &&
+                            <InfoModalComponent
+                                header={"Internal Server Error"}
+                                message={"Failed to update editor due to server error. Please try again later."}
+                                toggleModal={toggleModal}
+                            />
                         }
                         <MainWrapperComponent>
                             <QueryManager>
@@ -173,7 +202,7 @@ export const EditorDetailPage = () => {
                     :
                     <ErrorPage
                         header={"You aren't allowed to be here❌"}
-                        description={"404 Unauthorized"}
+                        description={"401 Unauthorized"}
                     />
             }
         </>
@@ -187,7 +216,7 @@ export const loader = async ({params}) => {
     const relativeUrl = prepareURL(API_CONFIG.ENDPOINTS.EDITOR);
     const urlWithPathVariable = addPathVariablesToURL(relativeUrl, email);
     const urlWithParameters = addParametersToURL(urlWithPathVariable, {"get-details": true});
-    return await apiLoader(urlWithParameters);
+    return await apiLoader(urlWithParameters, "Editor");
 }
 
 export const action = async ({request, params}) => {
@@ -195,6 +224,5 @@ export const action = async ({request, params}) => {
     const {email} = params;
     const relativeUrl = prepareURL(API_CONFIG.ENDPOINTS.EDITOR);
     const urlWithPathVariable = addPathVariablesToURL(relativeUrl, email);
-    await deleteHandler(urlWithPathVariable);
-    return true;
+    return  await deleteHandler(urlWithPathVariable);
 }

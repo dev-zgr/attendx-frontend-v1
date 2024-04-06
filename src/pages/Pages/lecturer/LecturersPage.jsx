@@ -4,7 +4,12 @@ import {ListWrapperComponent} from "../../../components/Wrappers/ListWrapperComp
 import {ItemCardMetaComponent} from "../../../meta-components/cards/ItemCardMetaComponent";
 import {getRandomElement} from "../../../utilityFunctions/pageLogic";
 import {API_CONFIG, DATA_LIST_URL_PARAMETERS, WATERMARKS} from "../../../config/config";
-import {extractParameters, genericLoader} from "../../../utilityFunctions/apiHandling";
+import {
+    addParametersToURL,
+    apiLoader,
+    extractParameters,
+    prepareURL
+} from "../../../utilityFunctions/apiHandling";
 import {QueryManagerButton} from "../../../meta-components/buttons/QueryManagerButton";
 import {SelectMetaComponent} from "../../../meta-components/buttons/SelectMetaComponent";
 import {QueryManager} from "../../../components/QueryManager";
@@ -51,5 +56,6 @@ export const LecturersPage = () => {
 
 export async function loader ({request}) {
     const extractedParameters = extractParameters(request.url);
-    return genericLoader(API_CONFIG.ENDPOINTS.LECTURER, extractedParameters);
+    const preparedURL = prepareURL(API_CONFIG.ENDPOINTS.LECTURER);
+    return apiLoader(addParametersToURL(preparedURL, extractedParameters), "Lecturer");
 }

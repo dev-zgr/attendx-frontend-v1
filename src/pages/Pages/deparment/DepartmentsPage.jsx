@@ -30,36 +30,44 @@ export const DepartmentsPage = () => {
                             }
                             <SelectMetaComponent urlParameters={urlParameters} setUrlParameters={setUrlParameters}/>
                         </QueryManager>
-                        <ListWrapperComponent>
-                            {
-                                fetchedData.data.map((department, index) => {
-                                    return <ItemCardMetaComponent
-                                        watermark={getRandomElement(WATERMARKS.DEPARTMENT)}
-                                        main={department.departmentName}
-                                        description={department.description}
-                                        id={department.departmentName}
-                                        key={index}
-                                        index={index}
-                                    />
-                                })
-                            }
-                            <PaginationManagerComponent pageCount={fetchedData.pageNumber} urlParameters={urlParameters}
-                                                        setUrlParameters={setUrlParameters}/>
-                        </ListWrapperComponent>
+                        {
+                            fetchedData.data.length > 0 ?
+
+                                <ListWrapperComponent>
+                                    {
+
+                                        fetchedData.data.map((department, index) => {
+                                            return <ItemCardMetaComponent
+                                                watermark={getRandomElement(WATERMARKS.DEPARTMENT)}
+                                                main={department.departmentName}
+                                                description={department.description}
+                                                id={department.departmentName}
+                                                key={index}
+                                                index={index}
+                                            />
+                                        })
+                                    }
+                                    <PaginationManagerComponent pageCount={fetchedData.pageNumber}
+                                                                urlParameters={urlParameters}
+                                                                setUrlParameters={setUrlParameters}/>
+                                </ListWrapperComponent>
+                                :
+                                <h2 className={"col-start-5 col-end-8 font-semibold mt-8 mb-2 text-slate-900 text-2xl"}>No
+                                    Departments
+                                    Found!</h2>
+
+                        }
                     </MainWrapperComponent>
                     : <ErrorPage
                         header={"You aren't allowed to be here❌"}
                         description={"404 Unauthorized"}
                     />
             }
-
         </>
-
-
     )
 }
 
-export async function loader({request, params}) {
+export async function loader({request}) {
     const extractedParameters = extractParameters(request.url);
     return genericLoader(API_CONFIG.ENDPOINTS.DEPARTMENT, extractedParameters);
 }

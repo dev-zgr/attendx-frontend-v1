@@ -1,5 +1,5 @@
 import './App.css';
-import {createBrowserRouter, RouterProvider, useLoaderData} from "react-router-dom";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import {RootLayout} from "./pages/Layouts/RootLayout";
 import {DepartmentsPage, loader as departmentsLoader} from "./pages/Pages/deparment/DepartmentsPage";
 import {action as addDepartmentAction, DepartmentAddPage} from "./pages/Pages/deparment/DepartmentAddPage";
@@ -40,8 +40,6 @@ import {accountActions} from "./store/slices/accountDetailsSlice";
 import {AccountUpdatePage, action as accountUpdateAction} from "./pages/Pages/account/AccountUpdatePage";
 import {LogoutPage} from "./pages/Pages/Logout/LogoutPage";
 
-
-//Add error element for department
 const router = createBrowserRouter([
     {
         path: "/",
@@ -80,7 +78,7 @@ const router = createBrowserRouter([
                     {index: true, element: <LecturersPage/>, loader: lecturerLoader},
                     {path: "new", element: <LecturerAddPage/>, action: lecturerAction},
                     {path: ":email", element: <LecturerDetailPage/>, loader: lecturerItemLoader},
-                    {path: ":email/edit", element: <LecturerUpdatePage/>},
+                    {path: ":email/edit", element: <LecturerUpdatePage/>, loader: lecturerItemLoader, action: lecturerAction},
 
                 ]
             },
@@ -161,7 +159,7 @@ const router = createBrowserRouter([
  * @returns {JSX.Element} -> That renders the directories of the application.
  */
 function App() {
-    const sessionState = useSelector(state => state.accountDetailsSlice);
+    useSelector(state => state.accountDetailsSlice);
     const dispatch = useDispatch();
     useEffect(() => {
         const handler = async () => {

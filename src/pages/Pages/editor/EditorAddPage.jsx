@@ -53,12 +53,13 @@ export const EditorAddPage = () => {
                 sessionState.isLogged && sessionState.userDetails.role === ROLE_CONSTANTS.EDITOR ?
                     <>
                         {
-                            UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_ADD_ACTION_500 &&
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_ADD_ACTION_201 &&
                             <InfoModalComponent
-                                header={"Internal Server Error"}
-                                message={"Editor Addition failed, please try again later!"}
+                                header={"Editor Added Successfully"}
+                                message={"We're redirecting you to department page!"}
                                 toggleModal={toggleModal}
                             />
+
                         }
                         {
                             UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_ADD_ACTION_400 &&
@@ -69,13 +70,12 @@ export const EditorAddPage = () => {
                             />
                         }
                         {
-                            UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_ADD_ACTION_201 &&
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_ADD_ACTION_500 &&
                             <InfoModalComponent
-                                header={"Editor Added Successfully"}
-                                message={"We're redirect you to department page!"}
+                                header={"Internal Server Error"}
+                                message={"Editor Addition failed, please try again later!"}
                                 toggleModal={toggleModal}
                             />
-
                         }
                         <MainWrapperComponent>
                             <QueryManager>
@@ -164,5 +164,8 @@ export async function action({request}) {
     });
 
     const returnedResponse = await response;
+    if(returnedResponse.status === 401){
+        throw new Response(JSON.stringify({header: "You aren't allowed to be here❌", description: "401 Unauthorized"}), {status: 401});
+    }
     return returnedResponse.status;
 }

@@ -3,11 +3,9 @@ import {useSelector} from "react-redux";
 import {ROLE_CONSTANTS, VISIBLE_MENU_ITEMS} from "../config/config";
 
 export const HeaderComponent = () => {
-    console.log("RENDERED");
     const sessionState = useSelector(state => state.accountDetailsSlice);
     let menuSections = VISIBLE_MENU_ITEMS.loggedOut.sections;
     let accountSections = VISIBLE_MENU_ITEMS.loggedOut.accountItems;
-    console.log("account sections" +  JSON.stringify(accountSections));
     if (sessionState.isLogged && sessionState.userDetails !== null) {
         accountSections = VISIBLE_MENU_ITEMS.loggedIn.accountItems
         switch (sessionState.userDetails.role) {
@@ -25,7 +23,6 @@ export const HeaderComponent = () => {
                 accountSections = VISIBLE_MENU_ITEMS.loggedOut.accountItems
         }
     }
-    console.log("account sections" + JSON.stringify(accountSections));
 
 
     return (

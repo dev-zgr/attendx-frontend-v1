@@ -4,14 +4,16 @@ import {InfoPagePMetaComponent} from "../../meta-components/InfoPage/InfoPagePMe
 import {Link, useRouteError} from "react-router-dom";
 
 export const ErrorPage = ({header,description,children}) => {
-    const error = useRouteError();
-
+    const error =  useRouteError();
      header = header || "😬 Oops! Something Went Wrong";
      description = description || "An error occurred while processing your request. Please try again later.";
-    // if(error && error.data){
-    //     description = JSON.parse(error.data).description || description;
-    //     header = JSON.parse(error.data).header || header;
-    // }
+    if(error && error.status === 404){
+        description = JSON.parse(error.data).description;
+        header = JSON.parse(error.data).header;
+    }else if(error && error.status === 401){
+        description = JSON.parse(error.data).description;
+        header = JSON.parse(error.data).header;
+    }
     return (
         <InfoPageWrapperComponent>
             <InfoPageH1MetaComponent>{header}</InfoPageH1MetaComponent>

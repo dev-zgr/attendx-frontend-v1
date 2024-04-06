@@ -25,18 +25,21 @@ export const DepartmentUpdatePage = () => {
     const navigate = useNavigate();
     const UISlice = useSelector(state => state.UISlice);
     useEffect(() => {
-        if (actionData === 201) {
-            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_ADD_ACTION_201));
+        if (actionData === 202) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_UPDATE_ACTION_202));
             dispatch(UIActions.showModal());
             setTimeout(() => {
                 dispatch(UIActions.hideModal());
                 navigate("..");
             }, 2000);
         } else if (actionData === 400) {
-            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_ADD_ACTION_400));
+            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_UPDATE_ACTION_400));
+            dispatch(UIActions.showModal());
+        }else if (actionData === 404) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_UPDATE_ACTION_404));
             dispatch(UIActions.showModal());
         } else if (actionData === 500) {
-            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_ADD_ACTION_500));
+            dispatch(UIActions.setOpcode(MODAL_CODES.DEPARTMENT_UPDATE_ACTION_500));
             dispatch(UIActions.showModal());
         }
     }, [actionData, dispatch, navigate]);
@@ -52,35 +55,44 @@ export const DepartmentUpdatePage = () => {
 
                     <>
                         {
-                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_500 &&
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_UPDATE_ACTION_202 &&
+                            <InfoModalComponent
+                                header={"Department Updated Successfully"}
+                                message={"We're redirect you to department page!"}
+                                toggleModal={toggleModal}
+                            />
+
+                        }
+                        {
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_UPDATE_ACTION_400 &&
+                            <InfoModalComponent
+                                header={"Bad Data"}
+                                message={"Please check all the fields again!"}
+                                toggleModal={toggleModal}
+                            />
+                        },
+                        {
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_UPDATE_ACTION_404 &&
+                            <InfoModalComponent
+                                header={"Department Not Found"}
+                                message={"Department Not Found, please try again later!"}
+                                toggleModal={toggleModal}
+                            />
+                        }
+                        {
+                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_UPDATE_ACTION_500 &&
                             <InfoModalComponent
                                 header={"Internal Server Error"}
                                 message={"Department Addition failed, please try again later!"}
                                 toggleModal={toggleModal}
                             />
                         }
-                        {
-                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_400 &&
-                            <InfoModalComponent
-                                header={"Bad Data"}
-                                message={"Please check all the fields again!"}
-                                toggleModal={toggleModal}
-                            />
-                        }
-                        {
-                            UISlice.showModal && UISlice.opcode === MODAL_CODES.DEPARTMENT_ADD_ACTION_201 &&
-                            <InfoModalComponent
-                                header={"Department Added Successfully"}
-                                message={"We're redirect you to department page!"}
-                                toggleModal={toggleModal}
-                            />
-
-                        }
-                    <MainWrapperComponent>
+                        <MainWrapperComponent>
                         <QueryManager>
                             <QueryManagerButton label={"Back"} to={".."}></QueryManagerButton>
                         </QueryManager>
                         <GenericFormManager method={"PUT"}>
+                            <input name={"departmentName"} className={"hidden"} value={fetchedDepartment.departmentName} onChange={() =>{}}/>
                             <SectionHeaderMetaComponent header={`Editing: ${fetchedDepartment.departmentName}`}/>
                             <SectionDescriptionMetaComponent
                                 description={"You're currently editing the department. Changes will be permanent after you click save button"}/>

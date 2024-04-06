@@ -246,7 +246,6 @@ export async function action({request}) {
             endpoint = "";
     }
 
-    console.log(role)
 
     const response = await fetch(prepareURL(endpoint), {
         method: request.method,

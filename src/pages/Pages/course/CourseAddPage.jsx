@@ -21,7 +21,7 @@ export const CourseAddPage = () => {
                 <QueryManager>
                     <QueryManagerButton label={"Back"} to={".."}></QueryManagerButton>
                 </QueryManager>
-                <GenericFormManager>
+                <GenericFormManager method={"POST"}>
                     <SectionHeaderMetaComponent header={"Course"}/>
                     <SectionDescriptionMetaComponent
                         description={"This information will be used for storing course information"}/>
@@ -71,7 +71,7 @@ export async function action({request}) {
         enrolledStudents: [],
     }
     const response = await fetch(prepareURL(API_CONFIG.ENDPOINTS.COURSE), {
-        method: "POST",
+        method: request.method,
         headers: {
             "Content-Type": "application/json"
         },

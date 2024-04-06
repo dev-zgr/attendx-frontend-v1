@@ -1,6 +1,5 @@
 import {prepareURL} from "../../../utilityFunctions/apiHandling";
 import {API_CONFIG} from "../../../config/config";
-import {redirect} from "react-router-dom";
 import {QueryManager} from "../../../components/QueryManager";
 import {GenericFormManager} from "../../../components/GenericFormManager";
 import {SectionHeaderMetaComponent} from "../../../meta-components/form/sections/SectionHeaderMetaComponent";
@@ -19,13 +18,13 @@ export const StudentAddPage = () => {
                 <QueryManager>
                     <QueryManagerButton label={"Back"} to={".."}></QueryManagerButton>
                 </QueryManager>
-                <GenericFormManager>
+                <GenericFormManager method={"POST"}>
                     <SectionHeaderMetaComponent header={"Student"}/>
                     <SectionDescriptionMetaComponent description={"This information will be used for storing student information"}/>
                     <InputSectionMetaComponent>
                         <TextInputMetaComponent name={"firstName"} label={"First Name"} placeholder={"eg. Özgür"} size={3} validator={(text) => textValidator(text,60)}/>
                         <TextInputMetaComponent name={"lastName"} label={"Last Name"} placeholder={"eg. Kamalı"} size={3} validator={(text) => textValidator(text,60)}/>
-                        <TextInputMetaComponent name={"email"} label={"Email address"} placeholder={"eg. ozgur@kamali.com"} size={3} validator={(text) => textValidator(text,16)}/>
+                        <TextInputMetaComponent name={"email"} label={"Email address"} placeholder={"eg. ozgur@kamali.com"} size={3} validator={(text) => textValidator(text,80)}/>
                         <TextInputMetaComponent name={"phoneNumber"} label={"Phone Number"} placeholder={"eg. 3604902204"} size={3} validator={(number) => numberValidator(number,10)}/>
                         <TextInputMetaComponent name={"password"} label={"Password"}  size={3} type={"password"} validator={(text) => {return text}}/>
                     </InputSectionMetaComponent>

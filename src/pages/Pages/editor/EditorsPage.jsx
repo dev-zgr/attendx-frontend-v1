@@ -61,7 +61,6 @@ export async function loader({request}) {
             "Authorization": localStorage.getItem("token") || ""
         }
     });
-    console.log(response.status)
     if (response.status === 200) {
         return response.json();
     } else if (response.status === 401) {

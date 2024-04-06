@@ -26,11 +26,11 @@ export const SelectBoxMetaComponent = ({optionCode ,name, label, placeholder, si
             <div className="mt-2">
                 <div
                     className="flex rounded-md shadow-sm ring-1 ring-inset text-slate-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-sky-800">
-                    <select  name={name} placeholder={placeholder} {...rest}
+                    <select  defaultValue={rest.value} name={name} placeholder={placeholder} {...rest}
                         className="appearance-none block w-full border-0 bg-transparent py-1.5 pl-1 text-slate-900 placeholder:text-slate-700 font-medium focus:ring-0 sm:text-sm sm:leading-6 justify-center">
                         {
                             option.map((option, index) => {
-                                return <option  className={"text-neutral-50"} value={option.value} key={index}>{option.label}</option>
+                                return <option className={"text-neutral-50"} value={option.value} key={index}>{option.label}</option>
                             })
                         }
                     </select>
