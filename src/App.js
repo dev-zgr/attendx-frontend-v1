@@ -19,7 +19,7 @@ import {
 import {loader as studentItemLoader, StudentDetailPage} from "./pages/Pages/student/StudentDetailPage";
 import {action as lecturerAction, LecturerAddPage} from "./pages/Pages/lecturer/LecturerAddPage";
 import {action as courseAction, CourseAddPage} from "./pages/Pages/course/CourseAddPage";
-import {CourseDetailPage, loader as courseItemLoader} from "./pages/Pages/course/CourseDetailPage";
+import {CourseDetailPage, loader as courseItemLoader, action as courseEnrollAction} from "./pages/Pages/course/CourseDetailPage";
 import {EditorUpdatePage} from "./pages/Pages/editor/EditorUpdatePage";
 import {AboutPage} from "./pages/Pages/About/AboutPage";
 import {ContactPage} from "./pages/Pages/Contact/ContactPage";
@@ -39,6 +39,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {accountActions} from "./store/slices/accountDetailsSlice";
 import {AccountUpdatePage, action as accountUpdateAction} from "./pages/Pages/account/AccountUpdatePage";
 import {LogoutPage} from "./pages/Pages/Logout/LogoutPage";
+import {HomePage} from "./pages/Pages/home/HomePage";
+import {HomeLayout} from "./pages/Layouts/HomeLayout";
 
 const router = createBrowserRouter([
     {
@@ -97,8 +99,8 @@ const router = createBrowserRouter([
                 children: [
                     {index: true, element: <CoursesPage/>, loader: courseLoader},
                     {path: "new", element: <CourseAddPage/>, action: courseAction},
-                    {path: ":courseCode", element: <CourseDetailPage/>, loader: courseItemLoader},
-                    {path: ":email/edit", element: <CourseUpdatePage/>, loader: courseItemLoader, action: courseAction},
+                    {path: ":courseCode", element: <CourseDetailPage/>, loader: courseItemLoader, action: courseEnrollAction},
+                    {path: ":courseCode/edit", element: <CourseUpdatePage/>, loader: courseItemLoader, action: courseAction},
 
                 ]
             },
@@ -150,6 +152,12 @@ const router = createBrowserRouter([
                     {index: true, element: <TermsOfServicePage/>},
                 ]
             }
+        ]
+    },{
+        path: "/",
+        element: <HomeLayout/>,
+        children: [
+            {index: true, element: <HomePage/>}
         ]
     }
 ])

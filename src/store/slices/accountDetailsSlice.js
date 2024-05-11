@@ -10,7 +10,7 @@ export const accountDetailsSlice = createSlice({
             state.userDetails = action.payload;
         },
         logout: (state) => {
-            state.loggedIn = false;
+            state.isLogged = false;
             state.userDetails = DEFAULT_USER_ACCOUNT_SLICE.userDetails;
         }
     }

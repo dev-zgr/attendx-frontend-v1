@@ -108,5 +108,5 @@ export const loader = async ({params}) => {
     const relativeUrl = prepareURL(API_CONFIG.ENDPOINTS.STUDENT);
     const urlWithPathVariable = addPathVariablesToURL(relativeUrl, email);
     const urlWithParameters = addParametersToURL(urlWithPathVariable, {"get-details": true});
-    return await apiLoader(urlWithParameters);
+    return await apiLoader(urlWithParameters, "Student");
 }

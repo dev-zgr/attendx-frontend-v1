@@ -5,17 +5,22 @@ export const UISlice = createSlice({
     initialState: {
         showModal: false,
         opcode: null,
+        courseCode: null
     },
     reducers: {
-        showModal: (state, action) => {
+        showModal: (state) => {
             state.showModal = true;
         },
         hideModal: (state) => {
             state.showModal = false;
             state.opcode = null;
+            state.courseCode = null;
         },
         setOpcode: (state, action) => {
             state.opcode = action.payload;
+        },
+        setCourseCode: (state, action) => {
+            state.courseCode = action.payload;
         }
     }
 });

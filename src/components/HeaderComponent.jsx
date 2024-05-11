@@ -2,7 +2,7 @@ import {HeaderButtonMetaComponent} from "../meta-components/buttons/HeaderButton
 import {useSelector} from "react-redux";
 import {ROLE_CONSTANTS, VISIBLE_MENU_ITEMS} from "../config/config";
 
-export const HeaderComponent = () => {
+export const HeaderComponent = ({...rest}) => {
     const sessionState = useSelector(state => state.accountDetailsSlice);
     let menuSections = VISIBLE_MENU_ITEMS.loggedOut.sections;
     let accountSections = VISIBLE_MENU_ITEMS.loggedOut.accountItems;
@@ -24,9 +24,12 @@ export const HeaderComponent = () => {
         }
     }
 
-
+    let className = "sticky top-0 px-10 py-6 pt-6 lg:pt-8  backdrop-blur-2xl text-slate-700 font-semibold text-sm leading-6 dark:text-slate-200 border-b border-slate-900/10 z-30  w-full";
+    if(rest.fixed){
+        className = "fixed top-0 px-10 py-6 pt-6 lg:pt-8  backdrop-blur-2xl text-slate-700 font-semibold text-sm leading-6 dark:text-slate-200 border-b border-slate-900/10 z-30  w-full";
+    }
     return (
-        <div className={"sticky top-0 px-10 py-6 pt-6 lg:pt-8  backdrop-blur-2xl text-slate-700 font-semibold text-sm leading-6 dark:text-slate-200 border-b border-slate-900/10 z-30  w-full"}>
+        <div className={className}>
             <header className={"flex justify-between"} >
                 <nav >
                     <ul className={"flex items-center gap-x-8"}>

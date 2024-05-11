@@ -1,5 +1,5 @@
 import {addParametersToURL, extractParameters, prepareURL} from "../../../utilityFunctions/apiHandling";
-import {API_CONFIG, DATA_LIST_URL_PARAMETERS, WATERMARKS} from "../../../config/config";
+import {API_CONFIG, DATA_LIST_URL_PARAMETERS, ROLE_CONSTANTS, WATERMARKS} from "../../../config/config";
 import {MainWrapperComponent} from "../../../components/Wrappers/MainWrapperComponent";
 import {ListWrapperComponent} from "../../../components/Wrappers/ListWrapperComponent";
 import {ItemCardMetaComponent} from "../../../meta-components/cards/ItemCardMetaComponent";
@@ -10,14 +10,19 @@ import {QueryManager} from "../../../components/QueryManager";
 import {SelectMetaComponent} from "../../../meta-components/buttons/SelectMetaComponent";
 import {useState} from "react";
 import {PaginationManagerComponent} from "../../../components/PaginationManagerComponent";
+import {useSelector} from "react-redux";
 
 export const StudentsPage = () => {
     const [urlParameters, setUrlParameters] = useState(DATA_LIST_URL_PARAMETERS);
+    const sessionState = useSelector(state => state.accountDetailsSlice);
     const fetchedData = useLoaderData();
     return (
         <MainWrapperComponent>
             <QueryManager>
-                <QueryManagerButton label={"Add Student"} to={"new"}/>
+                {
+                    sessionState.isLogged && sessionState.userDetails.role === ROLE_CONSTANTS.EDITOR &&
+                    <QueryManagerButton label={"Add Student"} to={"new"}/>
+                }
                 <SelectMetaComponent urlParameters={urlParameters} setUrlParameters={setUrlParameters}/>
             </QueryManager>
             {
@@ -46,14 +51,18 @@ export const StudentsPage = () => {
     )
 }
 
-export async function loader ({request,params}) {
+export async function loader ({request}) {
     const extractedParameters = extractParameters(request.url);
     const firstUrl = prepareURL(API_CONFIG.ENDPOINTS.STUDENT);
     const newUrl = addParametersToURL(firstUrl, extractedParameters);
-    const response = await fetch(newUrl);
+    const response = await fetch(newUrl, {
+        headers: {
+            "Authorization": localStorage.getItem("token") || ""
+        }
+    });
     if (response.status === 200) {
-        return await response.json();
-    } else {
-        return await response.json();
+        return response.json();
+    } else if (response.status === 401) {
+        throw new Response(JSON.stringify({header: "You aren't allowed to be here ❌", description: "401 Unauthorized"}), {status: 401});
     }
 }

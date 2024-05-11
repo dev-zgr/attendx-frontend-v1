@@ -13,37 +13,69 @@ import {TextInputMetaComponent} from "../../../meta-components/form/inputs/TextI
 import {numberValidator, textValidator} from "../../../utilityFunctions/validator";
 import {SectionDividerMetaComponent} from "../../../meta-components/form/sections/SectionDividerMetaComponent";
 import {SectionDescriptionMetaComponent} from "../../../meta-components/form/sections/SectionDescriptionMetaComponent";
+import {MODAL_CODES} from "../../../config/config";
 
 export const StudentUpdatePage = () => {
     const fetchedStudent = useLoaderData();
-    const UIState = useSelector(state => state.UISlice);
+    const UISlice = useSelector(state => state.UISlice);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const actionData = useActionData();
 
-
     useEffect(() => {
-        if (actionData) {
+        if (actionData === 202) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.STUDENT_UPDATE_ACTION_202));
             dispatch(UIActions.showModal());
             setTimeout(() => {
                 dispatch(UIActions.hideModal());
                 navigate("..");
             }, 2000);
+        } else if (actionData === 400) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.STUDENT_UPDATE_ACTION_400));
+            dispatch(UIActions.showModal());
+        }else if (actionData === 404) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.STUDENT_UPDATE_ACTION_404));
+            dispatch(UIActions.showModal());
+        } else if (actionData === 500) {
+            dispatch(UIActions.setOpcode(MODAL_CODES.STUDENT_UPDATE_ACTION_500));
+            dispatch(UIActions.showModal());
         }
     }, [actionData, dispatch, navigate]);
 
 
     const toggleModal = () => {
         dispatch(UIActions.hideModal());
-        navigate("..")
     }
     return (
         <>
-            {
-                UIState.showModal &&
+            {UISlice.showModal && UISlice.opcode === MODAL_CODES.STUDENT_UPDATE_ACTION_202 &&
                 <InfoModalComponent
-                    header={"Student Updated"}
-                    message={"Student has updated successfully!"}
+                    header={"Student Updated Successfully"}
+                    message={"You'll be redirected to the student page shortly."}
+                    toggleModal={toggleModal}
+                />
+            }
+
+            {UISlice.showModal && UISlice.opcode === MODAL_CODES.STUDENT_UPDATE_ACTION_400 &&
+                <InfoModalComponent
+                    header={"Bad Data"}
+                    message={"Please review all fields and try again."}
+                    toggleModal={toggleModal}
+                />
+            }
+
+            {UISlice.showModal && UISlice.opcode === MODAL_CODES.STUDENT_UPDATE_ACTION_404 &&
+                <InfoModalComponent
+                    header={"Student Not Found"}
+                    message={"The student you are trying to update could not be found. Please try again later."}
+                    toggleModal={toggleModal}
+                />
+            }
+
+            {UISlice.showModal && UISlice.opcode === MODAL_CODES.STUDENT_UPDATE_ACTION_500 &&
+                <InfoModalComponent
+                    header={"Internal Server Error"}
+                    message={"Failed to update editor due to server error. Please try again later."}
                     toggleModal={toggleModal}
                 />
             }
@@ -91,6 +123,7 @@ export const StudentUpdatePage = () => {
                                                 label={"Student Number"}
                                                 value={fetchedStudent.studentNumber}
                                                 type={"text"}
+                                                disabled={true}
                                                 size={3}
                                                 validator={(text) => {return text}}
                         />

@@ -1,11 +1,10 @@
 import {HeaderComponent} from "../../components/HeaderComponent";
 import {Outlet} from "react-router-dom";
 import {FooterComponent} from "../../components/FooterComponent";
-
-export const RootLayout = () => {
+export const HomeLayout = () => {
     return (
         <div className={"min-h-screen"}>
-            <HeaderComponent/>
+            <HeaderComponent fixed/>
             <Outlet/>
             <FooterComponent/>
         </div>

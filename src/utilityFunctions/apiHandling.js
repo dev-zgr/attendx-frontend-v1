@@ -72,33 +72,23 @@ const apiLoader = async (url,source) => {
 }
 
 export const fileDownloadHandler = async (url) => {
-    const preparedUrl = prepareURL(url)
-    fetch(preparedUrl,
-        {
-            headers: {
-                'Content-Type': 'application/csv',
-            }
-        }).then((blob) => {
-            const url = window.URL.createObjectURL(
-                new Blob([blob])
-            )
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute(
-            'download',
-            `attendance.csv`,
-        );
+    const preparedUrl = prepareURL(url);
+    fetch(preparedUrl)
+        .then(response => {
+            return response.blob(); // Convert response to a blob
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'attendance.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link); // Remove the link after download
+        })
 
-        // Append to html link element page
-        document.body.appendChild(link);
-
-        // Start download
-        link.click();
-
-        // Clean up and remove the link
-        link.parentNode.removeChild(link);
-    })
 }
+
 export const deleteHandler = async (url,source) => {
     const response = await fetch(url, {
         method: 'DELETE',

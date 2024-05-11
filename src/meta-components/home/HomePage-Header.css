@@ -1,0 +1,30 @@
+.home-page {
+    background: linear-gradient(45deg, #72cdf6 0%, #72cdf6 50%, #ffffff 50%, #ffffff 100%);
+    background-size: 400% 400%;
+    animation: gradient 15s linear infinite;
+    height: 100vh;
+    transition: background-color 1s ease; /* Add transition effect */
+}
+
+.home-page {
+    background: linear-gradient(45deg, #ffffff 0%, #72cdf6 33%, #ffffff 66%, #72cdf6 100%);
+    background-size: 300% 300%;
+    height: 100vh;
+    animation: gradient-animation 6s linear infinite;
+}
+
+
+@keyframes gradient-animation {
+    0% {
+        background-position: 0 100%;
+    }
+    100% {
+        background-position: 100% 0;
+    }
+
+}
+
+
+
+
+

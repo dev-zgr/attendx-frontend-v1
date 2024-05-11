@@ -38,6 +38,16 @@ export const EditorDetailPage = () => {
         dispatch(UIActions.hideModal());
     }
 
+    const openModal = () => {
+        dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_DELETE_CONFIRMATION));
+        dispatch(UIActions.showModal());
+    }
+
+    const toggleModal = () => {
+        dispatch(UIActions.hideModal());
+        navigate("..")
+    }
+
     useEffect(() => {
         if (actionData === 202) {
             dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_DELETE_ACTION_202));
@@ -57,16 +67,6 @@ export const EditorDetailPage = () => {
             dispatch(UIActions.showModal());
         }
     }, [actionData, dispatch, navigate]);
-
-    const openModal = () => {
-        dispatch(UIActions.setOpcode(MODAL_CODES.EDITOR_DELETE_CONFIRMATION));
-        dispatch(UIActions.showModal());
-    }
-
-    const toggleModal = () => {
-        dispatch(UIActions.hideModal());
-        navigate("..")
-    }
     return (
         <>
 

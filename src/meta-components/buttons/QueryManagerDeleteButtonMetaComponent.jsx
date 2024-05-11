@@ -1,4 +1,5 @@
 export const QueryManagerDeleteButtonMetaComponent = ({label,setModal}) => {
+
     return (
         <li className="flex-grow my-3">
             <button onClick={() => setModal(true)}
@@ -7,7 +8,5 @@ export const QueryManagerDeleteButtonMetaComponent = ({label,setModal}) => {
             </button>
 
         </li>
-
-
     )
 }

@@ -73,7 +73,7 @@ export const EditorAddPage = () => {
                             UISlice.showModal && UISlice.opcode === MODAL_CODES.EDITOR_ADD_ACTION_500 &&
                             <InfoModalComponent
                                 header={"Internal Server Error"}
-                                message={"Editor Addition failed, please try again later!"}
+                                message={"Editor addition failed, please try again later!"}
                                 toggleModal={toggleModal}
                             />
                         }

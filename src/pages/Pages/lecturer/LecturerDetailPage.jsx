@@ -20,113 +20,116 @@ export const LecturerDetailPage = () => {
 
     return (
         <MainWrapperComponent>
-        <QueryManager>
-            <QueryManagerButton label={"Update Lecturer"} to={"edit"}/>
-            <QueryManagerButton label={"Back"} to={".."}/>
-        </QueryManager>
-        <MainCardWrapper>
-            <SectionHeaderMetaComponent header={`Lecturer: ${fetchedLecturer.firstName}  ${fetchedLecturer.lastName}`}/>
-            <InputSectionMetaComponent>
-                <TextInputMetaComponent name={"firstName"}
-                                        label={"First Name"}
-                                        value={fetchedLecturer.firstName}
-                                        size={3}
-                                        disabled={true}
-                />
-                <TextInputMetaComponent name={"lastName"}
-                                        label={"Last Name"}
-                                        value={fetchedLecturer.lastName}
-                                        size={3}
-                                        disabled={true}
-                />
-                <TextInputMetaComponent name={"email"}
-                                        label={"Email address"}
-                                        value={fetchedLecturer.email}
-                                        size={3}
-                                        disabled={true}
-                />
-                <TextInputMetaComponent name={"phoneNumber"}
-                                        label={"Phone Number"}
-                                        value={fetchedLecturer.phoneNumber}
-                                        size={3}
-                                        disabled={true}
-                />
-                <TextInputMetaComponent
-                    label={"Password"}
-                    value={fetchedLecturer.password}
-                    type={"password"}
-                    disabled={true}
-                    size={3}/>
-                <TextInputMetaComponent
-                    label={"Department"}
-                    value={fetchedLecturer.department}
-                    disabled={true}
-                    size={3}/>
-            </InputSectionMetaComponent>
-            <SectionDividerMetaComponent/>
-            <SectionHeaderMetaComponent header={"Address"}/>
-            <SectionDescriptionMetaComponent
-                description={"This information contains editors address"}/>
-            <InputSectionMetaComponent>
-                <TextInputMetaComponent name={"streetFirstLine"}
-                                        label={"Street First Line"}
-                                        value={fetchedLecturer.address.streetFirstLine}
-                                        size={4}
-                                        disabled={true}
+            <QueryManager>
+                <QueryManagerButton label={"Update Lecturer"} to={"edit"}/>
+                <QueryManagerButton label={"Back"} to={".."}/>
+            </QueryManager>
+            <MainCardWrapper>
+                <SectionHeaderMetaComponent
+                    header={`Lecturer: ${fetchedLecturer.firstName}  ${fetchedLecturer.lastName}`}/>
+                <InputSectionMetaComponent>
+                    <TextInputMetaComponent name={"firstName"}
+                                            label={"First Name"}
+                                            value={fetchedLecturer.firstName}
+                                            size={3}
+                                            disabled={true}
+                    />
+                    <TextInputMetaComponent name={"lastName"}
+                                            label={"Last Name"}
+                                            value={fetchedLecturer.lastName}
+                                            size={3}
+                                            disabled={true}
+                    />
+                    <TextInputMetaComponent name={"email"}
+                                            label={"Email address"}
+                                            value={fetchedLecturer.email}
+                                            size={3}
+                                            disabled={true}
+                    />
+                    <TextInputMetaComponent name={"phoneNumber"}
+                                            label={"Phone Number"}
+                                            value={fetchedLecturer.phoneNumber}
+                                            size={3}
+                                            disabled={true}
+                    />
+                    <TextInputMetaComponent
+                        label={"Password"}
+                        value={fetchedLecturer.password}
+                        type={"password"}
+                        disabled={true}
+                        size={3}/>
+                    <TextInputMetaComponent
+                        label={"Department"}
+                        value={fetchedLecturer.department}
+                        disabled={true}
+                        size={3}/>
+                </InputSectionMetaComponent>
+                <SectionDividerMetaComponent/>
+                <SectionHeaderMetaComponent header={"Address"}/>
+                <SectionDescriptionMetaComponent
+                    description={"This information contains editors address"}/>
+                <InputSectionMetaComponent>
+                    <TextInputMetaComponent name={"streetFirstLine"}
+                                            label={"Street First Line"}
+                                            value={fetchedLecturer.address.streetFirstLine}
+                                            size={4}
+                                            disabled={true}
 
-                />
-                <TextInputMetaComponent name={"streetSecondLine"}
-                                        label={"Street Second Line"}
-                                        value={fetchedLecturer.address.streetSecondLine}
-                                        size={4}
-                                        disabled={true}
+                    />
+                    <TextInputMetaComponent name={"streetSecondLine"}
+                                            label={"Street Second Line"}
+                                            value={fetchedLecturer.address.streetSecondLine}
+                                            size={4}
+                                            disabled={true}
 
-                />
-                <TextInputMetaComponent name={"city"}
-                                        label={"City"}
-                                        value={fetchedLecturer.address.city}
-                                        size={3}
-                                        disabled={true}
-                />
-                <TextInputMetaComponent name={"state"}
-                                        label={"State"}
-                                        value={fetchedLecturer.address.state}
-                                        size={3} disabled={true}
-                />
-                <TextInputMetaComponent name={"country"}
-                                        label={"Country"}
-                                        value={fetchedLecturer.address.country}
-                                        size={3} disabled={true}
-                />
-                <TextInputMetaComponent name={"zipCode"}
-                                        label={"Zip Code"}
-                                        value={fetchedLecturer.address.zipCode}
-                                        size={3} disabled={true}
-                />
-            </InputSectionMetaComponent>
-        </MainCardWrapper>
-        <MainGridWrapper>
-            <SubItemCardMetaComponent className={"col-start-3"}>
-                <SectionHeaderMetaComponent header={"Courses"}/>
-                <SectionDescriptionMetaComponent description={"Courses given by this lecturer..."}/>
-                <SubItemListWrapper>
-                    {
-                        fetchedLecturer.courses.length === 0 ?
-                            <SubListListItemMetaComponent>{"No Course given yet"}</SubListListItemMetaComponent> :
-                            fetchedLecturer.courses.map((course, index) => {
-                                return (
-                                    <SubListListItemMetaComponent key={index}
-                                                                  to={`/course/${course.courseCode}`}
-                                    >{`${course.courseCode} - ${course.courseName}`}</SubListListItemMetaComponent>
-                                )
-                            })
-                    }
+                    />
+                    <TextInputMetaComponent name={"city"}
+                                            label={"City"}
+                                            value={fetchedLecturer.address.city}
+                                            size={3}
+                                            disabled={true}
+                    />
+                    <TextInputMetaComponent name={"state"}
+                                            label={"State"}
+                                            value={fetchedLecturer.address.state}
+                                            size={3} disabled={true}
+                    />
+                    <TextInputMetaComponent name={"country"}
+                                            label={"Country"}
+                                            value={fetchedLecturer.address.country}
+                                            size={3} disabled={true}
+                    />
+                    <TextInputMetaComponent name={"zipCode"}
+                                            label={"Zip Code"}
+                                            value={fetchedLecturer.address.zipCode}
+                                            size={3} disabled={true}
+                    />
+                </InputSectionMetaComponent>
+            </MainCardWrapper>
+            <MainGridWrapper>
+                <SubItemCardMetaComponent className={"col-start-3"}>
+                    <SectionHeaderMetaComponent header={"Courses"}/>
+                    <SectionDescriptionMetaComponent description={"Courses given by this lecturer..."}/>
+                    <SubItemListWrapper>
+                        {
+                            fetchedLecturer.courses.length === 0 ?
+                                <SubListListItemMetaComponent>{"No Course given yet"}</SubListListItemMetaComponent> :
+                                fetchedLecturer.courses.map((course, index) => {
+                                    return (
+                                        <SubListListItemMetaComponent
+                                            showLink={true}
+                                            key={index}
+                                            to={`/course/${course.courseCode}`}
+                                        >{`${course.courseCode} - ${course.courseName}`}</SubListListItemMetaComponent>
+                                    )
+                                })
+                        }
 
-                </SubItemListWrapper>
-            </SubItemCardMetaComponent>
-        </MainGridWrapper>
+                    </SubItemListWrapper>
+                </SubItemCardMetaComponent>
+            </MainGridWrapper>
 
-    </MainWrapperComponent>
+        </MainWrapperComponent>
     )
 
 }

@@ -1,5 +1,9 @@
-import {extractParameters, genericLoader} from "../../../utilityFunctions/apiHandling";
-import {API_CONFIG, DATA_LIST_URL_PARAMETERS, WATERMARKS} from "../../../config/config";
+import {
+    addParametersToURL,
+    extractParameters,
+    prepareURL
+} from "../../../utilityFunctions/apiHandling";
+import {API_CONFIG, DATA_LIST_URL_PARAMETERS, ROLE_CONSTANTS, WATERMARKS} from "../../../config/config";
 import {MainWrapperComponent} from "../../../components/Wrappers/MainWrapperComponent";
 import {QueryManager} from "../../../components/QueryManager";
 import {QueryManagerButton} from "../../../meta-components/buttons/QueryManagerButton";
@@ -10,15 +14,21 @@ import {getRandomElement} from "../../../utilityFunctions/pageLogic";
 import {useLoaderData} from "react-router-dom";
 import {useState} from "react";
 import {PaginationManagerComponent} from "../../../components/PaginationManagerComponent";
+import {useSelector} from "react-redux";
 
 export const CoursesPage = () => {
     const [urlParameters, setUrlParameters] = useState(DATA_LIST_URL_PARAMETERS);
+    const sessionState = useSelector(state => state.accountDetailsSlice);
     const fetchedData = useLoaderData();
 
     return (
         <MainWrapperComponent>
             <QueryManager>
-                <QueryManagerButton label={"Add Course"} to={"new"}/>
+                {
+                    sessionState.isLogged && sessionState.userDetails.role === ROLE_CONSTANTS.EDITOR &&
+                    <QueryManagerButton label={"Add Course"} to={"new"}/>
+
+                }
                 <SelectMetaComponent urlParameters={urlParameters} setUrlParameters={setUrlParameters}/>
             </QueryManager>
             {
@@ -51,5 +61,16 @@ export const CoursesPage = () => {
 
 export async function loader({request}) {
     const extractedParameters = extractParameters(request.url);
-    return genericLoader(API_CONFIG.ENDPOINTS.COURSE, extractedParameters);
+    const firstUrl = prepareURL(API_CONFIG.ENDPOINTS.COURSE);
+    const newUrl = addParametersToURL(firstUrl, extractedParameters);
+    const response = await fetch(newUrl, {
+        headers: {
+            "Authorization": localStorage.getItem("token") || ""
+        }
+    });
+    if (response.status === 200) {
+        return response.json();
+    } else if (response.status === 401) {
+        throw new Response(JSON.stringify({header: "You aren't allowed to be here ❌", description: "401 Unauthorized"}), {status: 401});
+    }
 }

@@ -161,9 +161,6 @@ export async function action({request}) {
             zipCode: data.get("zipCode")
         }
     }
-
-    console.log(body);
-
     const response = await fetch(prepareURL(API_CONFIG.ENDPOINTS.LECTURER), {
         method: request.method,
         headers: {

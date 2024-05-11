@@ -15,8 +15,6 @@ export const EditorsPage = () => {
     const [urlParameters, setUrlParameters] = useState(DATA_LIST_URL_PARAMETERS);
     const fetchedData = useLoaderData();
 
-
-
     return (
         <>
             <MainWrapperComponent>
